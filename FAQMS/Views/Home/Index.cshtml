@@ -1,31 +1,93 @@
-﻿@{
-    ViewBag.Title = "Home Page";
+﻿@{ 
 }
 
-<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
-</div>
+<!DOCTYPE html>
+<html>
 
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <title>Collabera FAQ Management System</title>
+    <!-- Favicon-->
+    <link rel="icon" href="../../favicon.ico" type="image/x-icon">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
+
+    <!-- Bootstrap Core Css -->
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Waves Effect Css -->
+    <link href="~/Content/waves.min.css" rel="stylesheet" />
+
+    <!-- Animation Css -->
+    <link href="~/Content/animate.min.css" rel="stylesheet" />
+
+    <!-- Custom Css -->
+    <link href="~/Content/style.min.css" rel="stylesheet">
+</head>
+
+<body class="login-page">
+    <div class="login-box">
+        <div class="logo">
+            <a href="javascript:void(0);"><b>Collabera</b> <br />FAQ Management</a>
+        </div>
+        <div class="card">
+            <div class="body">
+                <form id="sign_in" method="POST" action="/Home/Index">
+                    @*<div class="msg">Sign in to start your session</div>*@
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="material-icons">person</i>
+                        </span>
+                        <div class="form-line">
+                            <input type="text" class="form-control" name="username" placeholder="Username" required autofocus>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="material-icons">lock</i>
+                        </span>
+                        <div class="form-line">
+                            <input type="password" class="form-control" name="password" placeholder="Password" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        @*<div class="col-xs-8 p-t-5">
+            <input type="checkbox" name="rememberme" id="rememberme" class="filled-in chk-col-pink">
+            <label for="rememberme">Remember Me</label>
+        </div>*@
+                        <div class="col-xs-4"></div>
+                        <div class="col-xs-4 aligin-center">
+                            <button class="btn btn-block bg-pink waves-effect" style="padding: 0px;" type="submit">SIGN IN</button>
+                        </div>
+                    </div>
+                    @{ 
+                        if (ViewBag.failMsg != null) {
+                            <div class="alert bg-red alert-dismissible" role="alert">@ViewBag.failMsg</div>
+                        }
+                    }
+                </form>
+            </div>
+        </div>
     </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-    </div>
-</div>
+
+    <!-- Jquery Core Js -->
+    <script src="~/Scripts/jquery.min.js"></script>
+
+    <!-- Bootstrap Core Js -->
+    <script src="~/Scripts/bootstrap.min.js"></script>
+
+    <!-- Waves Effect Plugin Js -->
+    <script src="~/Scripts/waves.min.js"></script>
+
+    <!-- Validation Plugin Js -->
+    <script src="~/Scripts/jquery.validate.js"></script>
+
+    <!-- Custom Js -->
+    <script src="~/Scripts/admin.js"></script>
+    <script src="~/Scripts/sign-in.js"></script>
+</body>
+
+</html>

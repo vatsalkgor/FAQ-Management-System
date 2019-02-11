@@ -10,7 +10,29 @@ namespace FAQMS.Controllers
     {
         public ActionResult Index()
         {
+            if (Session["username"] != null)
+            {
+                return RedirectToAction("Dashboard");
+            }
             return View();
+
+        }
+
+        [HttpPost]
+        public ActionResult Index(string username, string password)
+        {
+            if (username == "vatsal" && password == "vatsal123")
+            {
+                Session["username"] = username;
+                return RedirectToAction("Dashboard");
+            }
+            else
+            {
+                ViewBag.failMsg = "Username or password is wrong.";
+                return View("Index");
+            }
+
+
         }
 
         public ActionResult About()
@@ -25,6 +47,21 @@ namespace FAQMS.Controllers
             ViewBag.Message = "Your contact page.";
 
             return View();
+        }
+
+        public ActionResult Dashboard()
+        {
+            if (Session["username"] == null)
+            {
+                return RedirectToAction("Index");
+            }
+            return View("Dashboard");
+        }
+
+        public ActionResult Logout()
+        {
+            Session.Abandon();
+            return RedirectToAction("Index");
         }
     }
 }
