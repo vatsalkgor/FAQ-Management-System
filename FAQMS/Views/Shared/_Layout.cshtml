@@ -11,9 +11,32 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
     @Styles.Render("~/Content/css")
+    <style>
+        .modal{
+            background-color:transparent;
+            max-height:inherit;
+            width:inherit;
+            margin: auto;
+        }
+        .modal .modal-footer{
+            background-color:inherit;
+        }
+    </style>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.6/angular.min.js"></script>
+    <script>
+        var dashboard = angular.module('dashboard', []);
+        dashboard.controller('DCntrl', function ($scope) {
+            $scope.count = { delivery: 20, ops: 52, audit: 65, er: 124, finance: 15 };
+            $scope.dept = "Delivery";
+            $scope.change = function (d) {
+                $scope.dept = d;
+            }
+        });
+    </script>
 </head>
 
-<body class="theme-red">
+
+<body class="theme-red" ng-app="dashboard" ng-controller="DCntrl">
     <!-- Page Loader -->
     <div class="page-loader-wrapper">
         <div class="loader">
@@ -30,12 +53,9 @@
             <p>Please wait...</p>
         </div>
     </div>
-    <!-- #END# Page Loader -->
-    <!-- Overlay For Sidebars -->
+    @* Overlay for preloader *@
     <div class="overlay"></div>
-    <!-- #END# Overlay For Sidebars -->
-    <!-- Search Bar -->
-    @*<div style="position: fixed; top:0;width:100%;text-align:center; z-index:100; font-size:25px; margin-top:20px; color:white;">FAQ Management System</div>*@
+    @* Searchbar start *@
     <div class="search-bar">
         <div class="search-icon">
             <i class="material-icons">search</i>
@@ -45,8 +65,8 @@
             <i class="material-icons">close</i>
         </div>
     </div>
-    <!-- #END# Search Bar -->
-    <!-- Top Bar -->
+    @* Searchbar end *@
+    @* Navbar top *@
     <nav class="navbar" style="margin:0px; height: 70px;">
         <div class="container-fluid">
             <div class="navbar-header">
@@ -56,19 +76,22 @@
             </div>
             <div class="collapse navbar-collapse" id="navbar-collapse">
                 <ul class="nav navbar-nav navbar-right">
-                    <!-- Call Search -->
-                    <li><a style=" margin: auto;" href="javascript:void(0);" class="js-search" data-close="true"><i class="material-icons">search</i></a></li>
                     <li class="dropdown">
-                        <a href="javascript:void(0);"data-toggle=""></a>
+                        <a style="margin:auto;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" href="javascript:void(0);">
+                            <i class="material-icons">add</i>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="javascript:void(0)" class="waves-effect waves-block">New Question</a></li>
+                            <li><a href="#" data-toggle="modal" data-target="#importModal" class="waves-effect waves-block">Import Question</a></li>
+                        </ul>
                     </li>
-                    <!-- #END# Call Search -->
-                    <!-- Notifications -->
-
+                    <li><a style=" margin: auto;" href="javascript:void(0);" class="js-search" data-close="true"><i class="material-icons">search</i></a></li>
                 </ul>
             </div>
         </div>
     </nav>
-    <!-- #Top Bar -->
+
+    @* navbar top end *@
     <section>
         <!-- Left Sidebar -->
         <aside id="leftsidebar" class="sidebar" style="padding-top: 0px;">
@@ -85,10 +108,6 @@
                         <ul class="dropdown-menu pull-right">
                             <li><a href="javascript:void(0);"><i class="material-icons">person</i>Change Password</a></li>
                             <li role="separator" class="divider"></li>
-                            @*<li><a href="javascript:void(0);"><i class="material-icons">group</i>Followers</a></li>
-                                <li><a href="javascript:void(0);"><i class="material-icons">shopping_cart</i>Sales</a></li>
-                                <li><a href="javascript:void(0);"><i class="material-icons">favorite</i>Likes</a></li>
-                                <li role="separator" class="divider"></li>*@
                             <li><a href="Logout"><i class="material-icons">input</i>Sign Out</a></li>
                         </ul>
                     </div>
@@ -100,38 +119,38 @@
                 <ul class="list">
                     <li class="header">DEPARTMENTS</li>
                     <li>
-                        <a href="">
+                        <a href="" ng-click="change('Delivery')">
                             <i class="material-icons">card_travel</i>
                             <span>Delivery</span>
-                            <span>(20)</span>
+                            <span>({{count.delivery}})</span>
                         </a>
                     </li>
                     <li>
-                        <a href="">
+                        <a href="" ng-click="change('Operations')">
                             <i class="material-icons">info</i>
                             <span>Operations</span>
-                            <span>(52)</span>
+                            <span>({{count.ops}})</span>
                         </a>
                     </li>
                     <li>
-                        <a href="">
+                        <a href="" ng-click="change('Audit')">
                             <i class="material-icons">history</i>
                             <span>Audit</span>
-                            <span>(145)</span>
+                            <span>({{count.audit}})</span>
                         </a>
                     </li>
                     <li>
-                        <a href="">
+                        <a href="" ng-click="change('Employee Relationship')">
                             <i class="material-icons">group</i>
                             <span>ER</span>
-                            <span>(35)</span>
+                            <span>({{count.er}})</span>
                         </a>
                     </li>
                     <li>
-                        <a href="">
+                        <a href="" ng-click="change('Finance')">
                             <i class="material-icons">account_balance</i>
                             <span>Finance</span>
-                            <span>(36)</span>
+                            <span>({{count.finance}})</span>
                         </a>
                     </li>
                 </ul>
@@ -150,57 +169,12 @@
         </aside>
         <!-- #END# Left Sidebar -->
     </section>
-
     <section class="content">
         @RenderBody()
     </section>
 
     @Scripts.Render("~/bundles/script")
+    @RenderSection("lastjs", required: false)
 </body>
 
 </html>
-
-
-
-@*<!DOCTYPE html>
-    <html>
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>@ViewBag.Title - My ASP.NET Application</title>
-        @Styles.Render("~/Content/css")
-        @Scripts.Render("~/bundles/modernizr")
-    </head>
-    <body>
-        <div class="navbar navbar-inverse navbar-fixed-top">
-            <div class="container">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-                </div>
-                <div class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav">
-                        <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                        <li>@Html.ActionLink("About", "About", "Home")</li>
-                        <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="container body-content">
-            @RenderBody()
-            <hr />
-            <footer>
-                <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-            </footer>
-        </div>
-
-        @Scripts.Render("~/bundles/jquery")
-        @Scripts.Render("~/bundles/bootstrap")
-        @RenderSection("scripts", required: false)
-    </body>
-    </html>*@

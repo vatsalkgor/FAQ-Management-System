@@ -1,37 +1,98 @@
 ﻿@{
     ViewBag.Title = "Dashboard";
 }
-
 <div class="container-fluid">
-    <div class="block-header">
-        <h2>BLANK PAGE</h2>
-    </div>
-</div>
 
-@*<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+    <div class="row clearfix">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="card">
+                <div class="header">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <center><h2 style="font-size:20px; padding-top:10px;">Questions for Department {{dept}}</h2></center>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <div class="btn-group pull-right">
+                                <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Change Action <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a href="javascript:void(0);">Mark Active</a></li>
+                                    <li><a href="javascript:void(0);">Mark Inactive</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Question</th>
+                                    <th>Answer</th>
+                                    <th>Edit</th>
+                                    <th>Delete</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td width="5%"><input type="checkbox" id="check" /><label for="check"></label></td>
+                                    <td width="35%"></td>
+                                    <td></td>
+                                    <td width="10%"></td>
+                                    <td width="10%"></td>
+                                    <td width="10%">
+                                        <div class="switch">
+                                            <label><input type="checkbox" /><span class="lever switch-col-blue"></span></label>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="5%"><input type="checkbox" id="check" /><label for="check"></label></td>
+                                    <td width="35%"></td>
+                                    <td></td>
+                                    <td width="10%"></td>
+                                    <td width="10%"></td>
+                                    <td width="10%">
+                                        <div class="switch">
+                                            <label><input type="checkbox" /><span class="lever switch-col-blue"></span></label>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="5%"><input type="checkbox" id="check" /><label for="check"></label></td>
+                                    <td width="35%"></td>
+                                    <td></td>
+                                    <td width="10%"></td>
+                                    <td width="10%"></td>
+                                    <td width="10%">
+                                        <div class="switch">
+                                            <label><input type="checkbox" /><span class="lever switch-col-blue"></span></label>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="5%"><input type="checkbox" id="check" /><label for="check"></label></td>
+                                    <td width="35%"></td>
+                                    <td></td>
+                                    <td width="10%"></td>
+                                    <td width="10%"></td>
+                                    <td width="10%">
+                                        <div class="switch">
+                                            <label><input type="checkbox" /><span class="lever switch-col-blue"></span></label>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <button type="button" class="btn btn-info waves-effect m-r-20" data-toggle="modal" data-target="#defaultModal">MODAL - DEFAULT SIZE</button>
+    @Html.Partial("_ImportQuestionModal")
 </div>
-
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-    </div>
-</div>*@
