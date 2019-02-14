@@ -299,6 +299,7 @@
     <Content Include="Scripts\summernotebs3\font\summernote.ttf" />
     <Content Include="Scripts\summernotebs3\font\summernote.woff" />
     <Content Include="Views\Home\_changePasswordModal.cshtml" />
+    <Content Include="Views\Home\ForgotPassword.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

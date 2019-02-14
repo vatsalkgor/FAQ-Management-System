@@ -73,5 +73,10 @@ namespace FAQMS.Controllers
             Session.Abandon();
             return RedirectToAction("Index");
         }
+
+        public ActionResult ForgotPassword()
+        {
+            return View("ForgotPassword");
+        }
     }
 }
