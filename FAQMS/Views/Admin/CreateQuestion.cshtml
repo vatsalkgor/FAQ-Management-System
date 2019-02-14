@@ -2,6 +2,7 @@
     ViewBag.Title = "CreateQuestion";
 }
 @section css{
+    <link href="~/Content/dropzone.min.css" rel="stylesheet" />
     <link href="~/Content/bootstrap-select.css" rel="stylesheet" />
     <link href="~/Content/bootstrap-tagsinput.css" rel="stylesheet" />
 }
@@ -12,6 +13,7 @@
 @section customjs{
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.6/angular.min.js"></script>
     <script src="~/Scripts/dashboard.js"></script>
+    <script src="~/Scripts/dropzone.min.js"></script>
     <script src="~/Scripts/bootstrap-tagsinput.js"></script>
     <script src="~/Scripts/summernotebs3/summernote.js"></script>
     <script>
@@ -78,9 +80,20 @@
                                 <input style="margin-bottom:0px;" type="text" class="form-control" data-role="tagsinput" />
                             </div>
                         </div>
+                        @* Buttons submit preview and cancel *@
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                            <button style="color:white;" class="btn btn-success waves-effect center">Submit</button>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                            <button style="color:white;" data-toggle="modal" data-target="#previewQuestion" class="btn btn-success waves-effect">Preview</button>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                            <button class="btn btn-default waves-effect">Cancel</button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+@Html.Partial("_PreviewQuestionModal")
