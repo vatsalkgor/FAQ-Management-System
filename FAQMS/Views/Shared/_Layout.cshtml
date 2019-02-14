@@ -10,33 +10,14 @@
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
-    @Styles.Render("~/Content/css")
-    <style>
-        .modal{
-            background-color:transparent;
-            max-height:inherit;
-            width:inherit;
-            margin: auto;
-        }
-        .modal .modal-footer{
-            background-color:inherit;
-        }
-    </style>
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.6/angular.min.js"></script>
-    <script>
-        var dashboard = angular.module('dashboard', []);
-        dashboard.controller('DCntrl', function ($scope) {
-            $scope.count = { delivery: 20, ops: 52, audit: 65, er: 124, finance: 15 };
-            $scope.dept = "Delivery";
-            $scope.change = function (d) {
-                $scope.dept = d;
-            }
-        });
-    </script>
+    @Styles.Render("~/Content/blankcss")
+    @RenderSection("css", required: false)
+    @Styles.Render("~/Content/customthemecss")
+    @RenderSection("customcss", required: false)
 </head>
 
 
-<body class="theme-red" ng-app="dashboard" ng-controller="DCntrl">
+<body class="theme-red" ng-app="layout" ng-controller="Dashboard">
     <!-- Page Loader -->
     <div class="page-loader-wrapper">
         <div class="loader">
@@ -81,8 +62,8 @@
                             <i class="material-icons">add</i>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a href="javascript:void(0)" class="waves-effect waves-block">New Question</a></li>
-                            <li><a href="#" data-toggle="modal" data-target="#importModal" class="waves-effect waves-block">Import Question</a></li>
+                            <li><a href="CreateQuestion" class="waves-effect waves-block">New Question</a></li>
+                            <li><a href="#" data-toggle="modal" data-target="#defaultModal" class="waves-effect waves-block">Import Question</a></li>
                         </ul>
                     </li>
                     <li><a style=" margin: auto;" href="javascript:void(0);" class="js-search" data-close="true"><i class="material-icons">search</i></a></li>
@@ -106,7 +87,7 @@
                     <div class="btn-group user-helper-dropdown">
                         <i class="material-icons" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">keyboard_arrow_down</i>
                         <ul class="dropdown-menu pull-right">
-                            <li><a href="javascript:void(0);"><i class="material-icons">person</i>Change Password</a></li>
+                            <li><a href="javascript:void(0);" data-toggle="modal" data-target="#changePassword" class="waves-effect waves-block"><i class="material-icons">person</i>Change Password</a></li>
                             <li role="separator" class="divider"></li>
                             <li><a href="Logout"><i class="material-icons">input</i>Sign Out</a></li>
                         </ul>
@@ -115,7 +96,7 @@
             </div>
             <!-- #User Info -->
             <!-- Menu -->
-            <div class="menu">
+            <div class="menu" ng-controller="Layout">
                 <ul class="list">
                     <li class="header">DEPARTMENTS</li>
                     <li>
@@ -172,9 +153,11 @@
     <section class="content">
         @RenderBody()
     </section>
+    @Html.Partial("_changePasswordModal")
+    @Scripts.Render("~/bundles/blankscript")
+    @RenderSection("customjs", required: false)
+    @Scripts.Render("~/bundles/themescript")
 
-    @Scripts.Render("~/bundles/script")
-    @RenderSection("lastjs", required: false)
 </body>
 
 </html>

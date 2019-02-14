@@ -1,0 +1,86 @@
+﻿@{
+    ViewBag.Title = "CreateQuestion";
+}
+@section css{
+    <link href="~/Content/bootstrap-select.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-tagsinput.css" rel="stylesheet" />
+}
+@section customcss{
+    <link href="~/Scripts/summernotebs3/summernote.css" rel="stylesheet" />
+    <link href="~/Content/ceratequestion.css" rel="stylesheet" />
+}
+@section customjs{
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.6/angular.min.js"></script>
+    <script src="~/Scripts/dashboard.js"></script>
+    <script src="~/Scripts/bootstrap-tagsinput.js"></script>
+    <script src="~/Scripts/summernotebs3/summernote.js"></script>
+    <script>
+        $('#answer').summernote({
+            height: 300,
+            tabsize: 1
+        });
+    </script>
+}
+<div class="container-fluid">
+    <div class="row clearfix">
+        <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
+            <div class="card">
+                <div class="header">
+                    <h2>Create Question</h2>
+                </div>
+                <div class="body">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <h2 class="card-inside-title">Question</h2>
+                            <div class="form-group">
+                                <div class="form-line">
+                                    <input style="margin:0px;" type="text" class="form-control" placeholder="Your question goes here" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <h2 class="card-inside-title">Answer</h2>
+                            <textarea id="answer"></textarea>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <h2 class="card-inside-title">Department</h2>
+                            <select class="form-control show-tick">
+                                <option value="">Select Department</option>
+                                <option value="10">Delivery</option>
+                                <option value="20">Operations</option>
+                                <option value="30">Audit</option>
+                                <option value="40">ER</option>
+                                <option value="50">Finance</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <h2 class="card-inside-title">Sub Module</h2>
+                            <select class="form-control show-tick">
+                                <option value="">Select Submodule</option>
+                                <option value="10">Delivery</option>
+                                <option value="20">Operations</option>
+                                <option value="30">Audit</option>
+                                <option value="40">ER</option>
+                                <option value="50">Finance</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <h2 class="card-inside-title">Notes</h2>
+                            <div class="form-group">
+                                <div class="form-line">
+                                    <input style="margin:0px;" type="text" class="form-control" placeholder="Important Notes" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <h2 class="card-inside-title">Tags</h2>
+                            <div class="form-group">
+                                <input style="margin-bottom:0px;" type="text" class="form-control" data-role="tagsinput" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

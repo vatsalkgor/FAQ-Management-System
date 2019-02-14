@@ -21,6 +21,7 @@ namespace FAQMS.Controllers
         [HttpPost]
         public ActionResult Index(string username, string password)
         {
+            //post request from angular and then varify it here. now static verification
             if (username == "vatsal" && password == "vatsal123")
             {
                 Session["username"] = username;
@@ -56,6 +57,15 @@ namespace FAQMS.Controllers
                 return RedirectToAction("Index");
             }
             return View("Dashboard");
+        }
+
+        public ActionResult CreateQuestion()
+        {
+            if (Session["username"] == null)
+            {
+                return RedirectToAction("Index");
+            }
+            return View("CreateQuestion");
         }
 
         public ActionResult Logout()

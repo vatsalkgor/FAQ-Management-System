@@ -1,0 +1,14 @@
+﻿.modal {
+    background-color: transparent;
+    max-height: inherit;
+    width: inherit;
+    margin: auto;
+}
+
+    .modal .modal-footer {
+        background-color: inherit;
+    }
+
+    .modal .btn-link {
+        background-color: transparent;
+    }
