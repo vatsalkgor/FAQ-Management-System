@@ -11,7 +11,7 @@ namespace FAQMS.Controllers
        
         public ActionResult Index()
         {
-            return View("About");
+            return View("Index");
         }
         public ActionResult About()
         {
