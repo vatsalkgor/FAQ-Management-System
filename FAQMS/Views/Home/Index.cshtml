@@ -1,69 +1,97 @@
 ﻿@{
     ViewBag.Title = "Collabera FAQ Management System";
 }
+@section customjs{
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.6/angular.min.js"></script>
+    <script>
+        var public = angular.module('Home', []);
+        public.controller('Index', function ($scope) {
+            $scope.module;
+            $scope.whichModule = function (m) {
+                //get the data from server here and display it in the body
+                $scope.module = m + " Module";
+            }
+        });
+    </script>
+}
 <div class="container-fluid">
+    <div class="block-header">
+        <h2>{{module}}</h2>
+    </div>
     <div class="row clearfix">
-        <div class="card">
-            <div class="header">
-                <h2>Our Most Viewed Questions</h2>
+        <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+            <div class="card">
+                <div class="header">
+                    <h2>Our Most Viewed Questions</h2>
+                </div>
+                <div class="body">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <button class="btn bg-cyan waves-effect m-b-10" type="button" data-toggle="collapse" data-target="#collapseExample1" aria-expanded="false"
+                                    aria-controls="collapseExample">
+                                How to add some columns in visibility range of table?
+                            </button>
+                            <div class="collapse" id="collapseExample1">
+                                <div class="well">
+                                    Click on the red "Actions" button. Select Edit Grid Style. Now you can see a pop up with all the visible and invisible columns. Then you can select a column from invisible list and drag and drop in visible column list at whatever location you want.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                            <button class="btn bg-cyan waves-effect m-b-10" type="button" data-toggle="collapse" data-target="#collapseExample2" aria-expanded="false"
+                                    aria-controls="collapseExample2">
+                                How do I search for a particular name in column?
+                            </button>
+                            <div class="collapse" id="collapseExample2">
+                                <div class="well">
+                                    Click on the red "Actions" button. Select Grid Functionality and then select Grid Filtering. Now you can see input boxes below the column name. Type here and you can filter with name
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <button class="btn bg-cyan waves-effect m-b-10" type="button" data-toggle="collapse" data-target="#collapseExample3" aria-expanded="false"
+                                    aria-controls="collapseExample">
+                                How to add more than 2 files as attachments in requirements?
+                            </button>
+                            <div class="collapse" id="collapseExample3">
+                                <div class="well">
+                                    Click on the requirement that you want to add notes to and then on the Actions tab on the left side of the screen you can see the "Attachment(s)" menu. On the top right corner of the popped up window you can see a drop down selected with "Single File upload" click and change it to "Multiple File Upload". Then you can add morethan two files to a requirement.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <button class="btn bg-cyan waves-effect m-b-10" type="button" data-toggle="collapse" data-target="#collapseExample4" aria-expanded="false"
+                                    aria-controls="collapseExample">
+                                How do I create a task realated to that requirement?
+                            </button>
+                            <div class="collapse" id="collapseExample4">
+                                <div class="well">
+                                    Click on the requirement that you want to add task to and then on the Actions tab on the left side of the screen you can see the "Task List" menu. Click on that and then on the top right corner of the Task list window you can see a small "+" button. From here fill all required details and then click save. It will reflect under your calendar.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <button class="btn bg-cyan waves-effect m-b-10" type="button" data-toggle="collapse" data-target="#collapseExample5" aria-expanded="false"
+                                    aria-controls="collapseExample">
+                                How to tag more than 1 resume to a requirement?
+                            </button>
+                            <div class="collapse" id="collapseExample5">
+                                <div class="well">
+                                    On the resume search page you can see a small box on the left side of each resume next to the name of each applicant. You can check more than  resumes and you will find a button on the selected requirement names as "tag selected". Click the button and all the selected resumes will be tagged to that requirement.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="body">
-                <div class="row">
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <button class="btn bg-cyan waves-effect m-b-15" type="button" data-toggle="collapse" data-target="#collapseExample1" aria-expanded="false"
-                                aria-controls="collapseExample">
-                            How to add some columns in visibility range of table?
-                        </button>
-                        <div class="collapse" id="collapseExample1">
-                            <div class="well">
-                                Click on the red "Actions" button. Select Edit Grid Style. Now you can see a pop up with all the visible and invisible columns. Then you can select a column from invisible list and drag and drop in visible column list at whatever location you want.
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
-                        <button class="btn bg-cyan waves-effect m-b-15" type="button" data-toggle="collapse" data-target="#collapseExample2" aria-expanded="false"
-                                aria-controls="collapseExample2">
-                            How do I search for a particular name in column?
-                        </button>
-                        <div class="collapse" id="collapseExample2">
-                            <div class="well">
-                                Click on the red "Actions" button. Select Grid Functionality and then select Grid Filtering. Now you can see input boxes below the column name. Type here and you can filter with name
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <button class="btn bg-cyan waves-effect m-b-15" type="button" data-toggle="collapse" data-target="#collapseExample3" aria-expanded="false"
-                                aria-controls="collapseExample">
-                            How to add more than 2 files as attachments in requirements?
-                        </button>
-                        <div class="collapse" id="collapseExample3">
-                            <div class="well">
-                                Click on the requirement that you want to add notes to and then on the Actions tab on the left side of the screen you can see the "Attachment(s)" menu. On the top right corner of the popped up window you can see a drop down selected with "Single File upload" click and change it to "Multiple File Upload". Then you can add morethan two files to a requirement.
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <button class="btn bg-cyan waves-effect m-b-15" type="button" data-toggle="collapse" data-target="#collapseExample4" aria-expanded="false"
-                                aria-controls="collapseExample">
-                            How do I create a task realated to that requirement?
-                        </button>
-                        <div class="collapse" id="collapseExample4">
-                            <div class="well">
-                                Click on the requirement that you want to add task to and then on the Actions tab on the left side of the screen you can see the "Task List" menu. Click on that and then on the top right corner of the Task list window you can see a small "+" button. From here fill all required details and then click save. It will reflect under your calendar.
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <button class="btn bg-cyan waves-effect m-b-15" type="button" data-toggle="collapse" data-target="#collapseExample5" aria-expanded="false"
-                                aria-controls="collapseExample">
-                            How to tag more than 1 resume to a requirement?
-                        </button>
-                        <div class="collapse" id="collapseExample5">
-                            <div class="well">
-                                On the resume search page you can see a small box on the left side of each resume next to the name of each applicant. You can check more than  resumes and you will find a button on the selected requirement names as "tag selected". Click the button and all the selected resumes will be tagged to that requirement.
-                            </div>
-                        </div>
-                    </div>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+            <div class="card">
+                <div class="header">
+                    <h2>Related Question</h2>
+                </div>
+                <div class="body">
+                    
                 </div>
             </div>
         </div>

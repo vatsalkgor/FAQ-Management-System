@@ -8725,7 +8725,7 @@ section.content {
     font-family: 'Material Icons';
     font-size: 24px;
     position: absolute;
-    top: 18px;
+    top: 4px;
     left: 20px;
     margin-right: 10px;
     -moz-transform: scale(0);
@@ -10260,13 +10260,15 @@ section.content {
     left: 0;
     z-index: 9999999;
     width: 100%;
-    -moz-transition: .25s;
-    -o-transition: .25s;
-    -webkit-transition: .25s;
-    transition: .25s;
+    /*-moz-transition: .25s;*/
+    /*-o-transition: .25s;*/
+    /*-webkit-transition: .25s;*/
+    /*transition: .25s;*/
 }
 
     .search-bar.open {
+        left: 435px;
+        width: 875px;
         top: 0;
         height: 70px;
     }
@@ -10293,10 +10295,10 @@ section.content {
         .search-bar .close-search .material-icons {
             color: #999;
             opacity: 1;
-            -moz-transition: .5s;
-            -o-transition: .5s;
-            -webkit-transition: .5s;
-            transition: .5s;
+            /*-moz-transition: .5s;*/
+            /*-o-transition: .5s;*/
+            /*-webkit-transition: .5s;*/
+            /*transition: .5s;*/
         }
 
             .search-bar .close-search .material-icons:hover {
@@ -10304,9 +10306,9 @@ section.content {
             }
 
     .search-bar input[type="text"] {
-        width: 100%;
+        width: 780px;
         font-size: 16px;
-        padding: 15px 60px 10px 56px;
+        padding: 15px 100px 10px 56px;
         border: none;
     }
 

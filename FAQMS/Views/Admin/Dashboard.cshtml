@@ -3,13 +3,11 @@
 }
 @section css{
     <link href="~/Content/dropzone.min.css" rel="stylesheet" />
-
 }
 @section customcss{
     <link href="~/Content/dashboard.css" rel="stylesheet" />
 }
 @section customjs{
-
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.6/angular.min.js"></script>
     <script src="~/Scripts/dashboard.js"></script>
     <script src="~/Scripts/dropzone.min.js"></script>
@@ -17,6 +15,12 @@
         Dropzone.options.frmFileUpload = {
             paramName: "file",
             maxFilesize: 2
+        }
+    </script>
+    <script>
+        function qclose(){
+            $("#desc_question").html('')
+            $("h2")[0].scrollIntoView({ behavior: "smooth" });
         }
     </script>
 }
@@ -37,6 +41,7 @@
                                 <ul class="dropdown-menu">
                                     <li><a href="javascript:void(0);">Mark Active</a></li>
                                     <li><a href="javascript:void(0);">Mark Inactive</a></li>
+                                    <li><a href="javascript:void(0);">Delete</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -56,59 +61,25 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td width="5%"><input type="checkbox" id="check" /><label for="check"></label></td>
-                                    <td width="35%"></td>
-                                    <td></td>
-                                    <td width="10%"></td>
-                                    <td width="10%"></td>
-                                    <td width="10%">
-                                        <div class="switch">
-                                            <label><input type="checkbox" /><span class="lever switch-col-blue"></span></label>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td width="5%"><input type="checkbox" id="check2" /><label for="check2"></label></td>
-                                    <td width="35%"></td>
-                                    <td></td>
-                                    <td width="10%"></td>
-                                    <td width="10%"></td>
-                                    <td width="10%">
-                                        <div class="switch">
-                                            <label><input type="checkbox" /><span class="lever switch-col-blue"></span></label>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td width="5%"><input type="checkbox" id="check3" /><label for="check3"></label></td>
-                                    <td width="35%"></td>
-                                    <td></td>
-                                    <td width="10%"></td>
-                                    <td width="10%"></td>
-                                    <td width="10%">
-                                        <div class="switch">
-                                            <label><input type="checkbox" /><span class="lever switch-col-blue"></span></label>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td width="5%"><input type="checkbox" id="check4" /><label for="check4"></label></td>
-                                    <td width="35%"></td>
-                                    <td></td>
-                                    <td width="10%"></td>
-                                    <td width="10%"></td>
-                                    <td width="10%">
-                                        <div class="switch">
-                                            <label><input type="checkbox" /><span class="lever switch-col-blue"></span></label>
-                                        </div>
-                                    </td>
+                                <tr ng-repeat="(key, value) in questions_answers">
+                                <td width="5%"><input type="checkbox" id="{{key}}" /><label for="{{key}}"></label></td>
+                                <td width="35%" ng-click="showQuestion(key)">{{value.Question}}</td>
+                                <td>{{value.Answer}}</td>
+                                <td width="10%"></td>
+                                <td width="10%"></td>
+                                <td width="10%">
+                                <div class="switch">
+                                <label><input type="checkbox" /><span class="lever switch-col-blue"></span></label>
+                                </div>
+                                </td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="desc_question">
         </div>
     </div>
 </div>
