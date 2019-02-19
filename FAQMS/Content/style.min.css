@@ -10289,7 +10289,7 @@ section.content {
         cursor: pointer;
         font-size: 30px;
         top: 16px;
-        right: 18px;
+        right: -26px;
     }
 
         .search-bar .close-search .material-icons {

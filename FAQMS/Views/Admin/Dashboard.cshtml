@@ -18,9 +18,9 @@
         }
     </script>
     <script>
-        function qclose(){
+        function qclose(id) {
             $("#desc_question").html('')
-            $("h2")[0].scrollIntoView({ behavior: "smooth" });
+            $("#"+id)[0].scrollIntoView({ behavior: "smooth" });
         }
     </script>
 }
@@ -49,7 +49,7 @@
                 </div>
                 <div class="body">
                     <div class="table-responsive">
-                        <table class="table table-bordered table-striped table-hover">
+                        <table class="table table-bordered table-striped table-hover dataTable">
                             <thead>
                                 <tr>
                                     <th></th>
@@ -62,16 +62,16 @@
                             </thead>
                             <tbody>
                                 <tr ng-repeat="(key, value) in questions_answers">
-                                <td width="5%"><input type="checkbox" id="{{key}}" /><label for="{{key}}"></label></td>
-                                <td width="35%" ng-click="showQuestion(key)">{{value.Question}}</td>
-                                <td>{{value.Answer}}</td>
-                                <td width="10%"></td>
-                                <td width="10%"></td>
-                                <td width="10%">
-                                <div class="switch">
-                                <label><input type="checkbox" /><span class="lever switch-col-blue"></span></label>
-                                </div>
-                                </td>
+                                    <td width="5%"><input type="checkbox" id="{{key}}" /><label for="{{key}}"></label></td>
+                                    <td style="cursor:pointer" width="25%" ng-click="showQuestion(key)">{{value.Question}}</td>
+                                    <td>{{value.Answer}}</td>
+                                    <td width="10%"><a style="margin:20px;" href="javascript:void(0)"><i class="material-icons">mode_edit</i></a></td>
+                                    <td width="10%"><a style="margin:20px;" href="javascript:void(0)"><i class="material-icons">delete</i></a></td>
+                                    <td width="10%">
+                                        <div class="switch">
+                                            <label><input type="checkbox" /><span class="lever switch-col-blue"></span></label>
+                                        </div>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>

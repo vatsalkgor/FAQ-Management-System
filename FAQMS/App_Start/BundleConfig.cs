@@ -16,8 +16,7 @@ namespace FAQMS
                         "~/Scripts/waves.min.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/themescript").Include(
-                        "~/Scripts/admin.js",
-                        "~/Scripts/demo.js"));
+                        "~/Scripts/admin.js"));
 
             bundles.Add(new StyleBundle("~/Content/blankcss").Include(
                       "~/Content/bootstrap.min.css",
@@ -26,6 +25,7 @@ namespace FAQMS
 
             bundles.Add(new StyleBundle("~/Content/customthemecss").Include(
                       "~/Content/style.min.css",
+                      "~/Content/dataTables.bootstrap.css",
                       "~/Content/theme-red.css"));
 
         }

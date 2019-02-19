@@ -4,7 +4,78 @@
 @section customjs{
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.6/angular.min.js"></script>
     <script src="~/Scripts/dashboard.js"></script>
-}
+    <script src="~/Scripts/mindmup-editabletable.js"></script>
+    <script>
+        $(document).ready(function () {
+            //var table = $("#tagstable table")
+            //var editabletds = []
+            //table.find('tr').each(function (key, val) {
+            //    $(this).find('td')[0].css('cursor', 'pointer')
+            //    editabletds.push($(this).find('td')[0])
+            //})
 
-<h2>TagsMgmt</h2>
+            $(".editable").click(function () {
+                $(this).attr("contenteditable","true")
+            })
+        })
+    </script>
+
+}
+@section customcss{
+    <link href="~/Content/dashboard.css" rel="stylesheet" />
+}
+<div class="container-fluid">
+    <div class="row clearfix">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="header">
+                    <h2>Tags Available</h2>
+                    <ul class="header-dropdown">
+                        <li class="dropdown">
+                            <a href="javascript:void(0);" data-toggle="modal" data-target="#addTag">
+                                <i class="material-icons">add</i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="body">
+                    <div class="table-responsive">
+                        <table id="tagstable" class="table table-bordered table-striped table-hover js-basic-example dataTable">
+                            <thead>
+                                <tr>
+                                    <th>Tag</th>
+                                    <th>Save Edited</th>
+                                    <th>Delete</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="editable" style="cursor:pointer">Dashboard</td>
+                                    <td width="10%"><a style="margin:20px;" href="javascript:void(0)"><i class="material-icons">mode_edit</i></a></td>
+                                    <td width="10%"><a style="margin:20px;" href="javascript:void(0)"><i class="material-icons">delete</i></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="editable" style="cursor:pointer">Dashboard</td>
+                                    <td width="10%"><a style="margin:20px;" href="javascript:void(0)"><i class="material-icons">mode_edit</i></a></td>
+                                    <td width="10%"><a style="margin:20px;" href="javascript:void(0)"><i class="material-icons">delete</i></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="editable" style="cursor:pointer">Dashboard</td>
+                                    <td width="10%"><a style="margin:20px;" href="javascript:void(0)"><i class="material-icons">mode_edit</i></a></td>
+                                    <td width="10%"><a style="margin:20px;" href="javascript:void(0)"><i class="material-icons">delete</i></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="editable" style="cursor:pointer">Dashboard</td>
+                                    <td width="10%"><a style="margin:20px;" href="javascript:void(0)"><i class="material-icons">mode_edit</i></a></td>
+                                    <td width="10%"><a style="margin:20px;" href="javascript:void(0)"><i class="material-icons">delete</i></a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@Html.Partial("_addTagsModal")
 

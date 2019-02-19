@@ -140,7 +140,9 @@
     <Content Include="Content\ceratequestion.css" />
     <Content Include="Content\dashboard.css" />
     <Content Include="Content\dropzone.min.css" />
+    <Content Include="Content\multi-select.css" />
     <Content Include="Content\theme-red.css" />
+    <Content Include="images\switch.png" />
     <Content Include="images\user-img-background.jpg" />
     <Content Include="images\user.png" />
     <Content Include="Content\animate.min.css" />
@@ -159,8 +161,10 @@
     <Content Include="Scripts\demo.js" />
     <Content Include="Scripts\dropzone.min.js" />
     <Content Include="Scripts\jquery.min.js" />
+    <Content Include="Scripts\jquery.multi-select.js" />
     <Content Include="Scripts\jquery.slimscroll.js" />
     <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\mindmup-editabletable.js" />
     <Content Include="Scripts\sign-in.js" />
     <Content Include="Scripts\summernotebs3\lang\summernote-ar-AR.js" />
     <Content Include="Scripts\summernotebs3\lang\summernote-ar-AR.min.js" />
@@ -306,6 +310,7 @@
     <Content Include="Views\Admin\_PreviewQuestionModal.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Admin\TagsMgmt.cshtml" />
+    <Content Include="Views\Admin\_addTagsModal.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

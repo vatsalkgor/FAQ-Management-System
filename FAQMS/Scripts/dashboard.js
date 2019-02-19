@@ -35,7 +35,7 @@ dashboard.controller('Dashboard', ['$scope', 'GetQuestions', function ($scope, G
             "<div class=col-md-3><button class='btn btn-success waves-effect waves-block'>Edit</button></div>"+
             "<div class=col-md-3><button class='btn btn-danger'>Delete</button></div>"+
             "<div class=col-md-3><button class='btn btn-danger'>Inactive</button></div>"+
-            "<div class=col-md-3><button class='btn btn-danger' onclick='qclose()'>Close</button></div>"
+            "<div class=col-md-3><button class='btn btn-danger' onclick='qclose("+id+")'>Close</button></div>"
             + "</div>"
             + "</div>"
             + "</div> "
