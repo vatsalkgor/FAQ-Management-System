@@ -13,6 +13,9 @@
             //    $(this).find('td')[0].css('cursor', 'pointer')
             //    editabletds.push($(this).find('td')[0])
             //})
+            $('[data-toggle="tooltip"]').tooltip({
+                container: 'body'
+            });
 
             $(".editable").click(function () {
                 $(this).attr("contenteditable","true")
@@ -31,7 +34,7 @@
                 <div class="header">
                     <h2>Tags Available</h2>
                     <ul class="header-dropdown">
-                        <li class="dropdown">
+                        <li class="dropdown" data-toggle="tooltip" data-placement="bottom" data-original-title="Add New Tag">
                             <a href="javascript:void(0);" data-toggle="modal" data-target="#addTag">
                                 <i class="material-icons">add</i>
                             </a>
@@ -50,22 +53,22 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td class="editable" style="cursor:pointer">Dashboard</td>
+                                    <td data-toggle="tooltip" data-placement="left" data-original-title="Double click to Edit" class="editable" style="cursor:pointer">Dashboard</td>
                                     <td width="10%"><a style="margin:20px;" href="javascript:void(0)"><i class="material-icons">mode_edit</i></a></td>
                                     <td width="10%"><a style="margin:20px;" href="javascript:void(0)"><i class="material-icons">delete</i></a></td>
                                 </tr>
                                 <tr>
-                                    <td class="editable" style="cursor:pointer">Dashboard</td>
+                                    <td data-toggle="tooltip" data-placement="left" data-original-title="Double click to Edit" class="editable" style="cursor:pointer">Dashboard</td>
                                     <td width="10%"><a style="margin:20px;" href="javascript:void(0)"><i class="material-icons">mode_edit</i></a></td>
                                     <td width="10%"><a style="margin:20px;" href="javascript:void(0)"><i class="material-icons">delete</i></a></td>
                                 </tr>
                                 <tr>
-                                    <td class="editable" style="cursor:pointer">Dashboard</td>
+                                    <td data-toggle="tooltip" data-placement="left" data-original-title="Double click to Edit" class="editable" style="cursor:pointer">Dashboard</td>
                                     <td width="10%"><a style="margin:20px;" href="javascript:void(0)"><i class="material-icons">mode_edit</i></a></td>
                                     <td width="10%"><a style="margin:20px;" href="javascript:void(0)"><i class="material-icons">delete</i></a></td>
                                 </tr>
                                 <tr>
-                                    <td class="editable" style="cursor:pointer">Dashboard</td>
+                                    <td data-toggle="tooltip" data-placement="left" data-original-title="Double click to Edit" class="editable" style="cursor:pointer">Dashboard</td>
                                     <td width="10%"><a style="margin:20px;" href="javascript:void(0)"><i class="material-icons">mode_edit</i></a></td>
                                     <td width="10%"><a style="margin:20px;" href="javascript:void(0)"><i class="material-icons">delete</i></a></td>
                                 </tr>

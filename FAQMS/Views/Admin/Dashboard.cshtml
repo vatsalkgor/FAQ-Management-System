@@ -9,6 +9,7 @@
 }
 @section customjs{
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.6/angular.min.js"></script>
+    <script src="~/Scripts/ui-bootstrap-tpls-2.5.0.min.js"></script>
     <script src="~/Scripts/dashboard.js"></script>
     <script src="~/Scripts/dropzone.min.js"></script>
     <script>
@@ -20,8 +21,13 @@
     <script>
         function qclose(id) {
             $("#desc_question").html('')
-            $("#"+id)[0].scrollIntoView({ behavior: "smooth" });
+            $("#" + id)[0].scrollIntoView({ behavior: "smooth" });
         }
+        $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip({
+                container: 'body'
+            });
+        })
     </script>
 }
 <div class="container-fluid">
@@ -61,7 +67,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr ng-repeat="(key, value) in questions_answers">
+                                <tr ng-repeat="(key, value) in filteredTodos">
                                     <td width="5%"><input type="checkbox" id="{{key}}" /><label for="{{key}}"></label></td>
                                     <td style="cursor:pointer" width="25%" ng-click="showQuestion(key)">{{value.Question}}</td>
                                     <td>{{value.Answer}}</td>
@@ -75,6 +81,11 @@
                                 </tr>
                             </tbody>
                         </table>
+                        <div uib-pagination ng-model="currentPage"
+                                    total-items="questions_answers.length"
+                                    max-size="maxSize"
+                                    boundary-links="true">
+                        </div>
                     </div>
                 </div>
             </div>

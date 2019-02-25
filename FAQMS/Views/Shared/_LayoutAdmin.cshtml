@@ -58,9 +58,9 @@
             </div>
             <div class="collapse navbar-collapse" id="navbar-collapse">
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a style="margin:auto" href="TagsManagement"><i class="material-icons">local_offer</i></a></li>
+                    <li><a style="margin:auto" data-toggle="tooltip" data-placement="bottom" data-original-title="Tags Management" href="TagsManagement"><i class="material-icons">local_offer</i></a></li>
                     <li class="dropdown">
-                        <a style="margin:auto;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" href="javascript:void(0);">
+                        <a style="margin:auto;" data-toggle="tooltip" data-placement="bottom" data-original-title="Create Question" class="dropdown-toggle" @*data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"*@ href="CreateQuestion">
                             <i class="material-icons">add</i>
                         </a>
                         <ul class="dropdown-menu">
@@ -102,35 +102,35 @@
                 <ul class="list">
                     <li class="header">DEPARTMENTS</li>
                     <li>
-                        <a href="" ng-click="change('Delivery')">
+                        <a href="Dashboard" ng-click="change('Delivery')">
                             <i class="material-icons">card_travel</i>
                             <span>Delivery</span>
                             <span>({{count.delivery}})</span>
                         </a>
                     </li>
                     <li>
-                        <a href="" ng-click="change('Operations')">
+                        <a href="Dashboard" ng-click="change('Operations')">
                             <i class="material-icons">info</i>
                             <span>Operations</span>
                             <span>({{count.ops}})</span>
                         </a>
                     </li>
                     <li>
-                        <a href="" ng-click="change('Audit')">
+                        <a href="Dashboard" ng-click="change('Audit')">
                             <i class="material-icons">history</i>
                             <span>Audit</span>
                             <span>({{count.audit}})</span>
                         </a>
                     </li>
                     <li>
-                        <a href="" ng-click="change('Employee Relationship')">
+                        <a href="Dashboard" ng-click="change('Employee Relationship')">
                             <i class="material-icons">group</i>
                             <span>ER</span>
                             <span>({{count.er}})</span>
                         </a>
                     </li>
                     <li>
-                        <a href="" ng-click="change('Finance')">
+                        <a href="Dashboard" ng-click="change('Finance')">
                             <i class="material-icons">account_balance</i>
                             <span>Finance</span>
                             <span>({{count.finance}})</span>

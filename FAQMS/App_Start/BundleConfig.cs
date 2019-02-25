@@ -11,7 +11,6 @@ namespace FAQMS
             bundles.Add(new ScriptBundle("~/bundles/blankscript").Include(
                         "~/Scripts/jquery.min.js",
                         "~/Scripts/bootstrap.min.js",
-                        "~/Scripts/bootstrap-select.min.js",
                         "~/Scripts/jquery.slimscroll.js",
                         "~/Scripts/waves.min.js"));
 

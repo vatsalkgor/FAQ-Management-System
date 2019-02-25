@@ -252,6 +252,7 @@
     <Content Include="Scripts\summernotebs3\lang\summernote-zh-TW.min.js" />
     <Content Include="Scripts\summernotebs3\summernote.css" />
     <Content Include="Scripts\summernotebs3\summernote.js" />
+    <Content Include="Scripts\ui-bootstrap-tpls-2.5.0.min.js" />
     <Content Include="Scripts\waves.min.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
