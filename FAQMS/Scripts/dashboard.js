@@ -1,7 +1,7 @@
-﻿var dashboard = angular.module('layout', ['ui.bootstrap','ui.bootstrap.pagination']);
+﻿var dashboard = angular.module('layout', ['ui.bootstrap', 'ui.bootstrap.pagination']);
 dashboard.controller('Layout', function ($scope) {
+    //http request to get the count of all depts
     $scope.count = { delivery: 20, ops: 52, audit: 65, er: 124, finance: 15 };
-
 });
 dashboard.factory("questionService", function ($http) {
     return {
@@ -17,13 +17,23 @@ dashboard.controller('Dashboard', ['$scope', "questionService", function ($scope
     $scope.change = function (d) {
         $scope.dept = d;
     }
-    var myPromise = questionService.getQues();
-    myPromise.then(function (response) {
+    var getQuesPromise = questionService.getQues();
+    getQuesPromise.then(function (response) {
+        //Substring Logic
+        for (var i = 0; i < response.length; i++) {
+            if (response[i].Answer.length > 100) {
+                short_ans = response[i].Answer.substr(0, 101) + "...";
+            } else {
+                short_ans = response[i].Answer;
+            }
+            response[i].sa = short_ans;
+        }
         $scope.questions_answers = response
+        //Pagination Logic 
         $scope.filteredTodos = []
             , $scope.currentPage = 1
             , $scope.numPerPage = 10
-            , $scope.maxSize = 5;
+            , $scope.maxSize = 10;
 
         $scope.$watch("currentPage + numPerPage", function () {
             var begin = (($scope.currentPage - 1) * $scope.numPerPage)
@@ -31,26 +41,6 @@ dashboard.controller('Dashboard', ['$scope', "questionService", function ($scope
             $scope.filteredTodos = $scope.questions_answers.slice(begin, end);
         });
     })
-    //questions_answers_data = GetQuestions.get_question_answers();
-    //questions_answers_data.then(function (result) {
-    //    $scope.questions_answers = result
-    //    console.log($scope.questions_answers);
-    //});
-    //console.log(GetQuestions.length)
-    //pagination logic
-
-    //$scope.filteredTodos = []
-    //    , $scope.currentPage = 1
-    //    , $scope.numPerPage = 10
-    //    , $scope.maxSize = 5;
-
-    //$scope.$watch("currentPage + numPerPage", function () {
-    //    var begin = (($scope.currentPage - 1) * $scope.numPerPage)
-    //        , end = begin + $scope.numPerPage;
-    //    //console.log($scope.questions_answers.length)
-    //    $scope.filteredTodos = $scope.questions_answers.slice(begin, end);
-    //});
-    //console.log($scope.filteredTodos.length);
 
     //question click logic
     $scope.showQuestion = function (id) {
@@ -79,3 +69,38 @@ dashboard.controller('Dashboard', ['$scope', "questionService", function ($scope
         $("#desc_question")[0].scrollIntoView({ behavior: "smooth" });
     }
 }])
+
+//controller for Create Question/Edit Question
+
+//controller for Tags Management
+dashboard.factory("getTags", function ($http) {
+    return {
+        getTags: function () {
+            return $http.get("GetTags").then(function(response){
+                return response.data
+            })
+        }
+    }
+})
+
+dashboard.controller("tagsmgmt", function ($scope,getTags) {
+    tagsPromise = getTags.getTags();
+    tagsPromise.then(function(response){
+        $scope.tags = response;
+    })
+    $scope.save = function (id) {
+        alert($("#" + id).html())
+
+        //HTTP POST request for updating the value
+
+        //alert here for success/failure
+    }
+    $scope.delete = function (id) {
+        //ask for confirmation
+
+        //HTTP delete request for delete
+        alert("deleted");
+        
+    }
+})
+// controller for search

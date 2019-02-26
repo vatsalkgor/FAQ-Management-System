@@ -3,23 +3,17 @@
 }
 @section customjs{
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.6/angular.min.js"></script>
+    <script src="~/Scripts/ui-bootstrap-tpls-2.5.0.min.js"></script>
     <script src="~/Scripts/dashboard.js"></script>
     <script src="~/Scripts/mindmup-editabletable.js"></script>
     <script>
-        $(document).ready(function () {
-            //var table = $("#tagstable table")
-            //var editabletds = []
-            //table.find('tr').each(function (key, val) {
-            //    $(this).find('td')[0].css('cursor', 'pointer')
-            //    editabletds.push($(this).find('td')[0])
-            //})
-            $('[data-toggle="tooltip"]').tooltip({
-                container: 'body'
-            });
-
-            $(".editable").click(function () {
-                $(this).attr("contenteditable","true")
+        $(document).on('mouseover', '[data-toggle="tooltip"]', function () {
+            $(this).tooltip({
+                container:'body'
             })
+        })
+        $(document).on('click', '.editable', function () {
+            $(this).attr("contenteditable","true")
         })
     </script>
 
@@ -27,13 +21,17 @@
 @section customcss{
     <link href="~/Content/dashboard.css" rel="stylesheet" />
 }
-<div class="container-fluid">
+<div class="container-fluid" ng-controller="tagsmgmt">
     <div class="row clearfix">
         <div class="col-md-12">
             <div class="card">
                 <div class="header">
                     <h2>Tags Available</h2>
                     <ul class="header-dropdown">
+                        <li>
+                            <input style="margin:0px;height:auto" type="text" placeholder="Search Here for tags " />
+                        </li>
+                        <li>&nbsp;</li>
                         <li class="dropdown" data-toggle="tooltip" data-placement="bottom" data-original-title="Add New Tag">
                             <a href="javascript:void(0);" data-toggle="modal" data-target="#addTag">
                                 <i class="material-icons">add</i>
@@ -52,26 +50,26 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
+                                <tr ng-repeat="(key,value) in tags">
+                                    <td data-toggle="tooltip" id="{{key}}" data-placement="left" data-original-title="Double click to Edit" class="editable" style="cursor:pointer">{{value.Tag}}</td>
+                                    <td width="10%"><a ng-click="save(key)" style="margin:20px;" href="javascript:void(0)"><i class="material-icons">check</i></a></td>
+                                    <td width="10%"><a ng-click="delete(key)" style="margin:20px;" href="javascript:void(0)"><i class="material-icons">delete</i></a></td>
+                                </tr>
+                                @*<tr>
                                     <td data-toggle="tooltip" data-placement="left" data-original-title="Double click to Edit" class="editable" style="cursor:pointer">Dashboard</td>
-                                    <td width="10%"><a style="margin:20px;" href="javascript:void(0)"><i class="material-icons">mode_edit</i></a></td>
+                                    <td width="10%"><a style="margin:20px;" href="javascript:void(0)"><i class="material-icons">check</i></a></td>
                                     <td width="10%"><a style="margin:20px;" href="javascript:void(0)"><i class="material-icons">delete</i></a></td>
                                 </tr>
                                 <tr>
                                     <td data-toggle="tooltip" data-placement="left" data-original-title="Double click to Edit" class="editable" style="cursor:pointer">Dashboard</td>
-                                    <td width="10%"><a style="margin:20px;" href="javascript:void(0)"><i class="material-icons">mode_edit</i></a></td>
+                                    <td width="10%"><a style="margin:20px;" href="javascript:void(0)"><i class="material-icons">check</i></a></td>
                                     <td width="10%"><a style="margin:20px;" href="javascript:void(0)"><i class="material-icons">delete</i></a></td>
                                 </tr>
                                 <tr>
                                     <td data-toggle="tooltip" data-placement="left" data-original-title="Double click to Edit" class="editable" style="cursor:pointer">Dashboard</td>
-                                    <td width="10%"><a style="margin:20px;" href="javascript:void(0)"><i class="material-icons">mode_edit</i></a></td>
+                                    <td width="10%"><a style="margin:20px;" href="javascript:void(0)"><i class="material-icons">check</i></a></td>
                                     <td width="10%"><a style="margin:20px;" href="javascript:void(0)"><i class="material-icons">delete</i></a></td>
-                                </tr>
-                                <tr>
-                                    <td data-toggle="tooltip" data-placement="left" data-original-title="Double click to Edit" class="editable" style="cursor:pointer">Dashboard</td>
-                                    <td width="10%"><a style="margin:20px;" href="javascript:void(0)"><i class="material-icons">mode_edit</i></a></td>
-                                    <td width="10%"><a style="margin:20px;" href="javascript:void(0)"><i class="material-icons">delete</i></a></td>
-                                </tr>
+                                </tr>*@
                             </tbody>
                         </table>
                     </div>

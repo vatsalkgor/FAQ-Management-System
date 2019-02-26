@@ -11,13 +11,13 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.6/angular.min.js"></script>
     <script src="~/Scripts/ui-bootstrap-tpls-2.5.0.min.js"></script>
     <script src="~/Scripts/dashboard.js"></script>
-    <script src="~/Scripts/dropzone.min.js"></script>
+    @*<script src="~/Scripts/dropzone.min.js"></script>
     <script>
         Dropzone.options.frmFileUpload = {
             paramName: "file",
             maxFilesize: 2
         }
-    </script>
+    </script>*@
     <script>
         function qclose(id) {
             $("#desc_question").html('')
@@ -70,7 +70,7 @@
                                 <tr ng-repeat="(key, value) in filteredTodos">
                                     <td width="5%"><input type="checkbox" id="{{key}}" /><label for="{{key}}"></label></td>
                                     <td style="cursor:pointer" width="25%" ng-click="showQuestion(key)">{{value.Question}}</td>
-                                    <td>{{value.Answer}}</td>
+                                    <td>{{value.sa}}</td>
                                     <td width="10%"><a style="margin:20px;" href="javascript:void(0)"><i class="material-icons">mode_edit</i></a></td>
                                     <td width="10%"><a style="margin:20px;" href="javascript:void(0)"><i class="material-icons">delete</i></a></td>
                                     <td width="10%">
@@ -81,10 +81,8 @@
                                 </tr>
                             </tbody>
                         </table>
-                        <div uib-pagination ng-model="currentPage"
-                                    total-items="questions_answers.length"
-                                    max-size="maxSize"
-                                    boundary-links="true">
+                        <div class="row">
+                            <center><div class="col-md-12" uib-pagination ng-model="currentPage" total-items="questions_answers.length" max-size="maxSize" boundary-links="true"></div></center>
                         </div>
                     </div>
                 </div>
