@@ -1,7 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Infrastructure;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
 using System.Web;
+using System.Web.Helpers;
 using System.Web.Mvc;
 using FAQMS.Models;
 
@@ -9,6 +15,28 @@ namespace FAQMS.Controllers
 {
     public class AdminController : Controller
     {
+        private AdminDBContext AdminContext = new AdminDBContext();
+        private QuestionAnswerDBContext QuestionAnswerContext = new QuestionAnswerDBContext();
+        private QuestionTagsDBContext QuestionTagsContext = new QuestionTagsDBContext();
+        private TagsDBContext TagsContext = new TagsDBContext();
+        private static string CreateMD5(string input)
+        {
+            // Use input string to calculate MD5 hash
+            using (System.Security.Cryptography.MD5 md5 = System.Security.Cryptography.MD5.Create())
+            {
+                byte[] inputBytes = System.Text.Encoding.ASCII.GetBytes(input);
+                byte[] hashBytes = md5.ComputeHash(inputBytes);
+
+                // Convert the byte array to hexadecimal string
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < hashBytes.Length; i++)
+                {
+                    sb.Append(hashBytes[i].ToString("X2"));
+                }
+                return sb.ToString();
+            }
+        }
+
         // GET: Admin
         public ActionResult Index()
         {
@@ -23,8 +51,10 @@ namespace FAQMS.Controllers
         [HttpPost]
         public ActionResult Index(string username, string password)
         {
+            password = CreateMD5(password);
+            Admin[] result = AdminContext.admin.Where(table => table.a_name == username && table.a_pass == password).ToArray();
             //post request from angular and then varify it here. now static verification
-            if (username == "vatsal" && password == "vatsal123")
+            if (result.Length == 1)
             {
                 Session["username"] = username;
                 return RedirectToAction("Dashboard");
@@ -34,9 +64,8 @@ namespace FAQMS.Controllers
                 ViewBag.failMsg = "Username or password is wrong.";
                 return View("Index");
             }
-
-
         }
+
         public ActionResult Dashboard()
         {
             if (Session["username"] == null)
@@ -58,72 +87,106 @@ namespace FAQMS.Controllers
         [HttpGet]
         public JsonResult GetQuestions()
         {
-            List<QuestionAnswer> qa = new List<QuestionAnswer> {
-                new QuestionAnswer(){Question = "What is performance matrix?",Answer = "A performance metric measures a recruiter's behavior, activities, and performance. It assesses how well recruiter is doing his/her respective tasks and how he/she is accomplishing his/her objectives."},
-                new QuestionAnswer(){Question = "What does Recs stand for?",Answer = "Recs stands for requirements."},
-                new QuestionAnswer(){Question = "How do I see requirements assigned to me?",Answer = "On the dashboard you can see the Recs assigned row and you can see all the requirements that are assigned to you today or yesterday or in last 7 days or in last month."},
-                new QuestionAnswer(){Question = "How do I see previous submissions by me?",Answer = "On the dashboard you can see the Submissions row and you can see all the submissions done by you on  today or yesterday or in last 7 days or in last month."},
-                new QuestionAnswer(){Question = "How do I see the CO submitted by me?",Answer = "On the dashboard you can see the Cos Count row and you can see all the Cos submitted by you on  today or yesterday or in last 7 days or in last month."},
-                new QuestionAnswer(){Question = "How do I see interviews that were previously scheduled by me?",Answer = "On the dashboard you can see the Interview row and you can see all the interviews scheduled by you on  today or yesterday or in last 7 days or in last month."},
-                new QuestionAnswer(){Question = "What is the meaning of bad delivery?",Answer = "A bad delivery happens when the client rejects a candidate that is recruited by a recruiter."},
-                new QuestionAnswer(){Question = "What does the different rations indicate on dashboard?",Answer = "The different ratios shows the performance of the recruiter on different stages like how many candidates selected by the recruiter are hired. "},
-                new QuestionAnswer(){Question = "What is performance matrix?",Answer = "A performance metric measures a recruiter's behavior, activities, and performance. It assesses how well recruiter is doing his/her respective tasks and how he/she is accomplishing his/her objectives."},
-                new QuestionAnswer(){Question = "What does Recs stand for?",Answer = "Recs stands for requirements."},
-                new QuestionAnswer(){Question = "How do I see requirements assigned to me?",Answer = "On the dashboard you can see the Recs assigned row and you can see all the requirements that are assigned to you today or yesterday or in last 7 days or in last month."},
-                new QuestionAnswer(){Question = "How do I see previous submissions by me?",Answer = "On the dashboard you can see the Submissions row and you can see all the submissions done by you on  today or yesterday or in last 7 days or in last month."},
-                new QuestionAnswer(){Question = "How do I see the CO submitted by me?",Answer = "On the dashboard you can see the Cos Count row and you can see all the Cos submitted by you on  today or yesterday or in last 7 days or in last month."},
-                new QuestionAnswer(){Question = "How do I see interviews that were previously scheduled by me?",Answer = "On the dashboard you can see the Interview row and you can see all the interviews scheduled by you on  today or yesterday or in last 7 days or in last month."},
-                new QuestionAnswer(){Question = "What is the meaning of bad delivery?",Answer = "A bad delivery happens when the client rejects a candidate that is recruited by a recruiter."},
-                new QuestionAnswer(){Question = "What does the different rations indicate on dashboard?",Answer = "The different ratios shows the performance of the recruiter on different stages like how many candidates selected by the recruiter are hired. "},new QuestionAnswer(){Question = "What is performance matrix?",Answer = "A performance metric measures a recruiter's behavior, activities, and performance. It assesses how well recruiter is doing his/her respective tasks and how he/she is accomplishing his/her objectives."},
-                new QuestionAnswer(){Question = "What does Recs stand for?",Answer = "Recs stands for requirements."},
-                new QuestionAnswer(){Question = "How do I see requirements assigned to me?",Answer = "On the dashboard you can see the Recs assigned row and you can see all the requirements that are assigned to you today or yesterday or in last 7 days or in last month."},
-                new QuestionAnswer(){Question = "How do I see previous submissions by me?",Answer = "On the dashboard you can see the Submissions row and you can see all the submissions done by you on  today or yesterday or in last 7 days or in last month."},
-                new QuestionAnswer(){Question = "How do I see the CO submitted by me?",Answer = "On the dashboard you can see the Cos Count row and you can see all the Cos submitted by you on  today or yesterday or in last 7 days or in last month."},
-                new QuestionAnswer(){Question = "How do I see interviews that were previously scheduled by me?",Answer = "On the dashboard you can see the Interview row and you can see all the interviews scheduled by you on  today or yesterday or in last 7 days or in last month."},
-                new QuestionAnswer(){Question = "What is the meaning of bad delivery?",Answer = "A bad delivery happens when the client rejects a candidate that is recruited by a recruiter."},
-                new QuestionAnswer(){Question = "What does the different rations indicate on dashboard?",Answer = "The different ratios shows the performance of the recruiter on different stages like how many candidates selected by the recruiter are hired. "},
-                new QuestionAnswer(){Question = "What is performance matrix?",Answer = "A performance metric measures a recruiter's behavior, activities, and performance. It assesses how well recruiter is doing his/her respective tasks and how he/she is accomplishing his/her objectives."},
-                new QuestionAnswer(){Question = "What does Recs stand for?",Answer = "Recs stands for requirements."},
-                new QuestionAnswer(){Question = "How do I see requirements assigned to me?",Answer = "On the dashboard you can see the Recs assigned row and you can see all the requirements that are assigned to you today or yesterday or in last 7 days or in last month."},
-                new QuestionAnswer(){Question = "How do I see previous submissions by me?",Answer = "On the dashboard you can see the Submissions row and you can see all the submissions done by you on  today or yesterday or in last 7 days or in last month."},
-                new QuestionAnswer(){Question = "How do I see the CO submitted by me?",Answer = "On the dashboard you can see the Cos Count row and you can see all the Cos submitted by you on  today or yesterday or in last 7 days or in last month."},
-                new QuestionAnswer(){Question = "How do I see interviews that were previously scheduled by me?",Answer = "On the dashboard you can see the Interview row and you can see all the interviews scheduled by you on  today or yesterday or in last 7 days or in last month."},
-                new QuestionAnswer(){Question = "What is the meaning of bad delivery?",Answer = "A bad delivery happens when the client rejects a candidate that is recruited by a recruiter."},
-                new QuestionAnswer(){Question = "What does the different rations indicate on dashboard?",Answer = "The different ratios shows the performance of the recruiter on different stages like how many candidates selected by the recruiter are hired. "},new QuestionAnswer(){Question = "What is performance matrix?",Answer = "A performance metric measures a recruiter's behavior, activities, and performance. It assesses how well recruiter is doing his/her respective tasks and how he/she is accomplishing his/her objectives."},
-                new QuestionAnswer(){Question = "What does Recs stand for?",Answer = "Recs stands for requirements."},
-                new QuestionAnswer(){Question = "How do I see requirements assigned to me?",Answer = "On the dashboard you can see the Recs assigned row and you can see all the requirements that are assigned to you today or yesterday or in last 7 days or in last month."},
-                new QuestionAnswer(){Question = "How do I see previous submissions by me?",Answer = "On the dashboard you can see the Submissions row and you can see all the submissions done by you on  today or yesterday or in last 7 days or in last month."},
-                new QuestionAnswer(){Question = "How do I see the CO submitted by me?",Answer = "On the dashboard you can see the Cos Count row and you can see all the Cos submitted by you on  today or yesterday or in last 7 days or in last month."},
-                new QuestionAnswer(){Question = "How do I see interviews that were previously scheduled by me?",Answer = "On the dashboard you can see the Interview row and you can see all the interviews scheduled by you on  today or yesterday or in last 7 days or in last month."},
-                new QuestionAnswer(){Question = "What is the meaning of bad delivery?",Answer = "A bad delivery happens when the client rejects a candidate that is recruited by a recruiter."},
-                new QuestionAnswer(){Question = "What does the different rations indicate on dashboard?",Answer = "The different ratios shows the performance of the recruiter on different stages like how many candidates selected by the recruiter are hired. "},
-                new QuestionAnswer(){Question = "What is performance matrix?",Answer = "A performance metric measures a recruiter's behavior, activities, and performance. It assesses how well recruiter is doing his/her respective tasks and how he/she is accomplishing his/her objectives."},
-                new QuestionAnswer(){Question = "What does Recs stand for?",Answer = "Recs stands for requirements."},
-                new QuestionAnswer(){Question = "How do I see requirements assigned to me?",Answer = "On the dashboard you can see the Recs assigned row and you can see all the requirements that are assigned to you today or yesterday or in last 7 days or in last month."},
-                new QuestionAnswer(){Question = "How do I see previous submissions by me?",Answer = "On the dashboard you can see the Submissions row and you can see all the submissions done by you on  today or yesterday or in last 7 days or in last month."},
-                new QuestionAnswer(){Question = "How do I see the CO submitted by me?",Answer = "On the dashboard you can see the Cos Count row and you can see all the Cos submitted by you on  today or yesterday or in last 7 days or in last month."},
-                new QuestionAnswer(){Question = "How do I see interviews that were previously scheduled by me?",Answer = "On the dashboard you can see the Interview row and you can see all the interviews scheduled by you on  today or yesterday or in last 7 days or in last month."},
-                new QuestionAnswer(){Question = "What is the meaning of bad delivery?",Answer = "A bad delivery happens when the client rejects a candidate that is recruited by a recruiter."},
-                new QuestionAnswer(){Question = "What does the different rations indicate on dashboard?",Answer = "The different ratios shows the performance of the recruiter on different stages like how many candidates selected by the recruiter are hired. "},new QuestionAnswer(){Question = "What is performance matrix?",Answer = "A performance metric measures a recruiter's behavior, activities, and performance. It assesses how well recruiter is doing his/her respective tasks and how he/she is accomplishing his/her objectives."},
-                new QuestionAnswer(){Question = "What does Recs stand for?",Answer = "Recs stands for requirements."},
-                new QuestionAnswer(){Question = "How do I see requirements assigned to me?",Answer = "On the dashboard you can see the Recs assigned row and you can see all the requirements that are assigned to you today or yesterday or in last 7 days or in last month."},
-                new QuestionAnswer(){Question = "How do I see previous submissions by me?",Answer = "On the dashboard you can see the Submissions row and you can see all the submissions done by you on  today or yesterday or in last 7 days or in last month."},
-                new QuestionAnswer(){Question = "How do I see the CO submitted by me?",Answer = "On the dashboard you can see the Cos Count row and you can see all the Cos submitted by you on  today or yesterday or in last 7 days or in last month."},
-                new QuestionAnswer(){Question = "How do I see interviews that were previously scheduled by me?",Answer = "On the dashboard you can see the Interview row and you can see all the interviews scheduled by you on  today or yesterday or in last 7 days or in last month."},
-                new QuestionAnswer(){Question = "What is the meaning of bad delivery?",Answer = "A bad delivery happens when the client rejects a candidate that is recruited by a recruiter."},
-                new QuestionAnswer(){Question = "What does the different rations indicate on dashboard?",Answer = "The different ratios shows the performance of the recruiter on different stages like how many candidates selected by the recruiter are hired. "},
-                new QuestionAnswer(){Question = "What is performance matrix?",Answer = "A performance metric measures a recruiter's behavior, activities, and performance. It assesses how well recruiter is doing his/her respective tasks and how he/she is accomplishing his/her objectives."},
-                new QuestionAnswer(){Question = "What does Recs stand for?",Answer = "Recs stands for requirements."},
-                new QuestionAnswer(){Question = "How do I see requirements assigned to me?",Answer = "On the dashboard you can see the Recs assigned row and you can see all the requirements that are assigned to you today or yesterday or in last 7 days or in last month."},
-                new QuestionAnswer(){Question = "How do I see previous submissions by me?",Answer = "On the dashboard you can see the Submissions row and you can see all the submissions done by you on  today or yesterday or in last 7 days or in last month."},
-                new QuestionAnswer(){Question = "How do I see the CO submitted by me?",Answer = "On the dashboard you can see the Cos Count row and you can see all the Cos submitted by you on  today or yesterday or in last 7 days or in last month."},
-                new QuestionAnswer(){Question = "How do I see interviews that were previously scheduled by me?",Answer = "On the dashboard you can see the Interview row and you can see all the interviews scheduled by you on  today or yesterday or in last 7 days or in last month."},
-                new QuestionAnswer(){Question = "What is the meaning of bad delivery?",Answer = "A bad delivery happens when the client rejects a candidate that is recruited by a recruiter."},
-                new QuestionAnswer(){Question = "What does the different rations indicate on dashboard?",Answer = "The different ratios shows the performance of the recruiter on different stages like how many candidates selected by the recruiter are hired. "},
-            };
-
+            List<QuestionAnswer> qa = QuestionAnswerContext.QA.ToList();
             return Json(qa, JsonRequestBehavior.AllowGet);
+        }
 
+        [HttpPost]
+        public bool PutQuestion(String question, String answer, String dept, String mod, String notes, List<int> tags)
+        {   
+            QuestionAnswer qa = new QuestionAnswer() { Question = question, Answer = answer, Status = true, Department = dept, Module = mod, Notes = notes, Timespend = 0 };
+            QuestionAnswerContext.QA.Add(qa);
+            QuestionAnswerContext.SaveChanges();
+            var id = qa.Id;
+            foreach(int tid in tags)
+            {
+                QuestionTags qt = new QuestionTags(){ QId = id,TagId = tid};
+                QuestionTagsContext.QT.Add(qt);
+                QuestionTagsContext.SaveChanges();
+            }
+            return true;
+        }
+
+        [HttpPost]
+        public bool MakeAllActive(List<int> data, bool new_stat)
+        {
+            foreach (int d in data)
+            {
+                var qa = QuestionAnswerContext.QA.Where(t => t.Id == d).First();
+                qa.Status = new_stat
+;
+                try
+                {
+                    QuestionAnswerContext.SaveChanges();
+                }
+                catch (Exception e)
+                {
+                    Debug.WriteLine(e);
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        [HttpPost]
+        public bool DeleteSelected(List<int> data)
+        {
+            foreach (int d in data)
+            {
+                QuestionAnswer q = QuestionAnswerContext.QA.Where(t => t.Id == d).First();
+                QuestionAnswerContext.QA.Remove(q);
+                try
+                {
+
+                    QuestionAnswerContext.SaveChanges();
+                }
+                catch (Exception e)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        [HttpPost]
+        public bool UpdateQueStatus(int id, bool new_status)
+        {
+            var t = QuestionAnswerContext.QA.Where(qa => qa.Id == id).First();
+            t.Status = new_status;
+            try
+            {
+                QuestionAnswerContext.SaveChanges();
+                return true;
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.StackTrace);
+                return false;
+            }
+        }
+
+        [HttpPost]
+        public bool DelQue(int id)
+        {
+            var qa = QuestionAnswerContext.QA.Where(table => table.Id == id).First();
+            QuestionAnswerContext.QA.Remove(qa);
+            try
+            {
+                QuestionAnswerContext.SaveChanges();
+                return true;
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.StackTrace);
+                return false;
+            }
+        }
+
+        public ActionResult EditQuestion(int id)
+        {
+            QuestionAnswer qa = QuestionAnswerContext.QA.Where(t => t.Id == id).First();
+            ViewData["qa"] = qa;
+            return View();
         }
 
         public ActionResult Logout()
@@ -137,6 +200,8 @@ namespace FAQMS.Controllers
             return View("ForgotPassword");
         }
 
+
+        //Starting methods for Tags Management
         public ActionResult TagsManagement()
         {
             if (Session["username"] == null)
@@ -149,19 +214,77 @@ namespace FAQMS.Controllers
         [HttpGet]
         public JsonResult GetTags()
         {
-            List<Tags> tags = new List<Tags>
-            {
-                new Tags(){Id=1,Tag="Dashboard" },
-                new Tags(){Id=2,Tag="Applicant" },
-                new Tags(){Id=3,Tag="Resume" },
-                new Tags(){Id=4,Tag="Client" },
-                new Tags(){Id=5,Tag="Client Contact" },
-                new Tags(){Id=6,Tag="XYZ" },
-            };
-            return Json(tags,JsonRequestBehavior.AllowGet);
+            List<Tags> tags = TagsContext.Tags.ToList();
+            return Json(tags, JsonRequestBehavior.AllowGet);
         }
 
-        
+        [HttpPost]
+        public int AddTag(String tag)
+        {
+            if (tag.Length == 0)
+            {
+                return 0;
+            }
+            else
+            {
+                TagsContext.Tags.Add(new Tags() { Tag = tag });
+                try
+                {
+                    TagsContext.SaveChanges();
+                }
+                catch (DbUpdateException db)
+                {
+                    Debug.WriteLine(db);
+                    return 1;
+                }
+                return 2;
+            }
+        }
 
+        [HttpPost]
+        public int UpdateTag(int id, String str)
+        {
+            var t = TagsContext.Tags.Where(table => table.Id == id).First();
+            t.Tag = str;
+            try
+            {
+                TagsContext.SaveChanges();
+                return 1;
+            }
+            catch (DbUpdateException e)
+            {
+                Debug.WriteLine(e.StackTrace);
+                return 0;
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.StackTrace);
+                return -1;
+            }
+        }
+
+        [HttpPost]
+        public int DeleteTag(int id)
+        {
+            var t = TagsContext.Tags.Where(table => table.Id == id).First();
+            TagsContext.Tags.Remove(t);
+            try
+            {
+                TagsContext.SaveChanges();
+                return 1;
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.StackTrace);
+                return 0;
+            }
+        }
+
+        [HttpPost]
+        public JsonResult SearchTag(String query)
+        {
+            return Json(TagsContext.Tags.Where(t => t.Tag.Contains(query)).ToList());
+        }
     }
+
 }

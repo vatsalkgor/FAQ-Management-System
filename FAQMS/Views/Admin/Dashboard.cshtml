@@ -45,9 +45,9 @@
                                     Change Action <span class="caret"></span>
                                 </button>
                                 <ul class="dropdown-menu">
-                                    <li><a href="javascript:void(0);">Mark Active</a></li>
-                                    <li><a href="javascript:void(0);">Mark Inactive</a></li>
-                                    <li><a href="javascript:void(0);">Delete</a></li>
+                                    <li><a href="javascript:void(0);" ng-click="active()">Mark Active</a></li>
+                                    <li><a href="javascript:void(0);" ng-click="inactive()">Mark Inactive</a></li>
+                                    <li><a href="javascript:void(0);" ng-click="deleteAll()">Delete</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -68,14 +68,14 @@
                             </thead>
                             <tbody>
                                 <tr ng-repeat="(key, value) in filteredTodos">
-                                    <td width="5%"><input type="checkbox" id="{{key}}" /><label for="{{key}}"></label></td>
+                                    <td width="5%"><input ng-model="selected[key]" type="checkbox" id="{{key}}" /><label for="{{key}}"></label></td>
                                     <td style="cursor:pointer" width="25%" ng-click="showQuestion(key)">{{value.Question}}</td>
-                                    <td>{{value.sa}}</td>
-                                    <td width="10%"><a style="margin:20px;" href="javascript:void(0)"><i class="material-icons">mode_edit</i></a></td>
-                                    <td width="10%"><a style="margin:20px;" href="javascript:void(0)"><i class="material-icons">delete</i></a></td>
-                                    <td width="10%">
+                                    <td width="40%">{{value.sa}}</td>
+                                    <td width="5%"><a style="margin:20px;" href="EditQuestion/{{value.Id}}"><i class="material-icons">mode_edit</i></a></td>
+                                    <td width="5%"><a ng-click="del_que(value.Id)" style="margin:20px;" href="javascript:void(0)"><i class="material-icons">delete</i></a></td>
+                                    <td width="20%">
                                         <div class="switch">
-                                            <label><input type="checkbox" /><span class="lever switch-col-blue"></span></label>
+                                            <label><input type="checkbox" ng-checked="value.Status" ng-click="toggleStatus(value.Id,key)" /><span class="lever switch-col-blue"></span></label>
                                         </div>
                                     </td>
                                 </tr>
