@@ -1,8 +1,8 @@
 ﻿var public = angular.module('Home', []);
 public.factory("questions", function ($http) {
     return {
-        getTop: function (s) {
-            s.loading = true;
+        getTop: function () {
+            $(".page-loader-wrapper").show();
             return $http.get('/Home/GetTop').then(function (response) {
                 return response.data;
             })
@@ -28,6 +28,7 @@ public.factory("questions", function ($http) {
 public.factory("deptmod", function ($http) {
     return {
         getDeptMod: function () {
+            $(".page-loader-wrapper").show();
             return $http.get("/Home/GetDeptMod").then(function (response) {
                 return response.data
             })

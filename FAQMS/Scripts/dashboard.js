@@ -36,8 +36,10 @@
     $scope.selected = [];
     DeptFactory.getDeptCount().then(function (response) {
         $scope.depts = response;
+        $(".page-loader-wrapper").hide();
     })
     $scope.change = function (id, name) {
+        $(".page-loader-wrapper").show();
         if ($window.location.href.split("/")[4] != "Dashboard") {
             $window.location.href = "/Admin/Dashboard"
         }
@@ -47,23 +49,26 @@
             //Pagination Logic 
             pagination($scope.questions_answers);
         })
+        $(".page-loader-wrapper").hide();
+
     }
 
     //question promise to get all questions
     questionService.getQues().then(function (response) {
-
         $scope.questions_answers = refineQues(response)
         //Pagination Logic 
         pagination($scope.questions_answers);
+        $(".page-loader-wrapper").hide();
     })
 
     $("#search").keyup(function (e) {
         if (e.which == 13 && $(this).val() != "") {
+            $(".page-loader-wrapper").show();
             questionService.searchQuestions($(this).val()).then(function (response) {
                 $scope.questions_answers = refineQues(response)
                 pagination($scope.questions_answers);
             })
-            
+        $(".page-loader-wrapper").hide();
         }
     })
 
@@ -242,9 +247,11 @@ dashboard.controller("questions", function ($scope,questionService,$window, Dept
         $("#previewanswer").html(answer)
     }
     $scope.change_dept = function (id) {
+        $(".page-loader-wrapper").hide();
         ModuleFactory.searchModById(id).then(function (response) {
             $scope.selected_mod = response
         })
+        $(".page-loader-wrapper").hide();
     }
     
 
@@ -315,10 +322,12 @@ dashboard.controller("tagsmgmt", function ($scope, TagsFactory) {
     $("#tag_search").keyup(function (e) {
         if (e.which == 13) {
             if ($(this).val() != "") {
+                $(".page-loader-wrapper").hide();
                 TagsFactory.searchTag($(this).val()).then(function (response) {
                     $scope.tags = response;
                     console.log($scope.tags)
                 })
+                $(".page-loader-wrapper").hide();
             }
         }
     })
@@ -387,9 +396,11 @@ dashboard.controller("Department", function (DeptFactory, ModuleFactory, $scope)
     $("#dept_search").keyup(function (e) {
         if (e.which == 13) {
             if ($(this).val() != "") {
+                $(".page-loader-wrapper").hide();
                 DeptFactory.searchDept($(this).val()).then(function (response) {
                     $scope.dept = response.data;
                 })
+                $(".page-loader-wrapper").hide();
             }
         }
     })

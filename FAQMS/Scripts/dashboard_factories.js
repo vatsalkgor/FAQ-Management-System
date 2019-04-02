@@ -2,6 +2,7 @@
 dashboard.factory("questionService", function ($http) {
     return {
         getQues: function () {
+            $(".page-loader-wrapper").show();
             return $http.get('/Admin/GetQuestions').then(function (response) {
                 return response.data;
             })
@@ -50,6 +51,7 @@ dashboard.factory("DeptFactory", function ($http) {
             })
         },
         getDeptCount: function () {
+            $(".page-loader-wrapper").show();
             return $http.get("/Admin/GetDeptsCount").then(function (response) {
                 return response.data
             })
