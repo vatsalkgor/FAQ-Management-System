@@ -13,13 +13,9 @@ namespace FAQMS.Models
         public String Answer { get; set; }
         public bool Status { get; set; }
         public String Notes { get; set; }
-        public String Department { get; set; }
-        public String Module { get; set; }
+        public int Department { get; set; }
+        public int Module { get; set; }
         public long Timespend { get; set; }
     }
 
-    public class QuestionAnswerDBContext : DbContext
-    {
-        public DbSet<QuestionAnswer> QA { get; set; }
-    }
 }

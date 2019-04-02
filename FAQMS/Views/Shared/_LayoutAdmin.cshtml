@@ -16,7 +16,7 @@
     @RenderSection("customcss", required: false)
 </head>
 
-<body class="theme-red" ng-app="layout" ng-controller="Dashboard">
+<body class="theme-red" ng-app="dashboard" ng-controller="Dashboard">
     <!-- Page Loader -->
     <div class="page-loader-wrapper">
         <div class="loader">
@@ -40,7 +40,7 @@
         <div class="search-icon">
             <i class="material-icons">search</i>
         </div>
-        <input type="text" style="background-color:white;" placeholder="START TYPING...">
+        <input type="text" id="search" style="background-color:white;" placeholder="START TYPING...">
         <div class="close-search">
             <i class="material-icons">close</i>
         </div>
@@ -66,6 +66,9 @@
                             <li><a href="CreateQuestion" class="waves-effect waves-block">New Question</a></li>
                             <li>@*<a href="#" data-toggle="modal"   data-target="#defaultModal" class="waves-effect waves-block">Import Question</a>*@</li>
                         </ul>
+                    </li>
+                    <li>
+                        <a style="margin:auto;" href="/Admin/DepartmentManagement" data-toggle="tooltip" data-placement="bottom" data-original-title="Department Management"><i class="material-icons">work</i></a>
                     </li>
 
                 </ul>
@@ -97,44 +100,50 @@
             </div>
             <!-- #User Info -->
             <!-- Menu -->
-            <div class="menu" ng-controller="Layout">
+            <div class="menu">
                 <ul class="list">
                     <li class="header">DEPARTMENTS</li>
-                    <li>
-                        <a href="Dashboard" ng-click="change('Delivery')">
-                            <i class="material-icons">card_travel</i>
-                            <span>Delivery</span>
-                            <span>({{count.delivery}})</span>
+                    <li ng-repeat="ds in depts">
+                        <a href="javascript:void(0)" ng-click="change(ds.id,ds.dept)">
+                            <span>{{ds.dept}}</span>
+                            <span>({{ds.count}})</span>
                         </a>
                     </li>
-                    <li>
-                        <a href="Dashboard" ng-click="change('Operations')">
-                            <i class="material-icons">info</i>
-                            <span>Operations</span>
-                            <span>({{count.ops}})</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="Dashboard" ng-click="change('Audit')">
-                            <i class="material-icons">history</i>
-                            <span>Audit</span>
-                            <span>({{count.audit}})</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="Dashboard" ng-click="change('Employee Relationship')">
-                            <i class="material-icons">group</i>
-                            <span>ER</span>
-                            <span>({{count.er}})</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="Dashboard" ng-click="change('Finance')">
-                            <i class="material-icons">account_balance</i>
-                            <span>Finance</span>
-                            <span>({{count.finance}})</span>
-                        </a>
-                    </li>
+                    @*<li>
+            <a href="Dashboard" ng-click="change('Delivery')">
+                <i class="material-icons">card_travel</i>
+                <span>Delivery</span>
+                <span>({{count.delivery}})</span>
+            </a>
+        </li>
+        <li>
+            <a href="Dashboard" ng-click="change('Operations')">
+                <i class="material-icons">info</i>
+                <span>Operations</span>
+                <span>({{count.ops}})</span>
+            </a>
+        </li>
+        <li>
+            <a href="Dashboard" ng-click="change('Audit')">
+                <i class="material-icons">history</i>
+                <span>Audit</span>
+                <span>({{count.audit}})</span>
+            </a>
+        </li>
+        <li>
+            <a href="Dashboard" ng-click="change('Employee Relationship')">
+                <i class="material-icons">group</i>
+                <span>ER</span>
+                <span>({{count.er}})</span>
+            </a>
+        </li>
+        <li>
+            <a href="Dashboard" ng-click="change('Finance')">
+                <i class="material-icons">account_balance</i>
+                <span>Finance</span>
+                <span>({{count.finance}})</span>
+            </a>
+        </li>*@
                 </ul>
             </div>
             <!-- #Menu -->

@@ -138,6 +138,9 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Admin.cs" />
+    <Compile Include="Models\Context.cs" />
+    <Compile Include="Models\Departments.cs" />
+    <Compile Include="Models\Modules.cs" />
     <Compile Include="Models\QuestionAnswer.cs" />
     <Compile Include="Models\QuestionTags.cs" />
     <Compile Include="Models\Tags.cs" />
@@ -167,6 +170,7 @@
     <Content Include="Scripts\bootstrap-tagsinput.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\dashboard.js" />
+    <Content Include="Scripts\dashboard_factories.js" />
     <Content Include="Scripts\demo.js" />
     <Content Include="Scripts\dropzone.min.js" />
     <Content Include="Scripts\jquery.min.js" />
@@ -174,6 +178,8 @@
     <Content Include="Scripts\jquery.slimscroll.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\mindmup-editabletable.js" />
+    <Content Include="Scripts\public_controller.js" />
+    <Content Include="Scripts\public_factory.js" />
     <Content Include="Scripts\sign-in.js" />
     <Content Include="Scripts\summernotebs3\lang\summernote-ar-AR.js" />
     <Content Include="Scripts\summernotebs3\lang\summernote-ar-AR.min.js" />
@@ -324,6 +330,8 @@
     <Content Include="Views\Admin\_addTagsModal.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Views\Admin\EditQuestion.cshtml" />
+    <Content Include="Views\Admin\DepartmentMgmt.cshtml" />
+    <Content Include="Views\Admin\_DepartmentManagementModals.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

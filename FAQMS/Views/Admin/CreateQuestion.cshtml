@@ -15,6 +15,7 @@
 @section customjs{
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.6/angular.min.js"></script>
     <script src="~/Scripts/ui-bootstrap-tpls-2.5.0.min.js"></script>
+    <script src="~/Scripts/dashboard_factories.js"></script>
     <script src="~/Scripts/dashboard.js"></script>
     <script src="~/Scripts/dropzone.min.js"></script>
     <script src="~/Scripts/summernotebs3/summernote.js"></script>
@@ -57,7 +58,7 @@
                                 <h2 class="card-inside-title">Question</h2>
                                 <div class="form-group">
                                     <div class="form-line">
-                                        <input style="margin:0px;" type="text" value="" class="form-control" ng-model="question" name="question" placeholder="Your question goes here" required/>
+                                        <input style="margin:0px;" type="text" value="" class="form-control" ng-model="question" name="question" placeholder="Your question goes here" required />
                                     </div>
 
                                     <div ng-show="form.$submitted || form.question.$touched">
@@ -72,13 +73,8 @@
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                                 <h2 class="card-inside-title">Department</h2>
-                                <select class="form-control show-tick" name="d" ng-model="d" required>
-                                    <option value="">Select Submodule</option>
-                                    <option value="Delivery">Delivery</option>
-                                    <option value="Operations">Operations</option>
-                                    <option value="Audit">Audit</option>
-                                    <option value="ER">ER</option>
-                                    <option value="Finance">Finance</option>
+                                <select class="form-control show-tick" name="d" ng-change="change_dept(d)" ng-model="d" required>
+                                    <option ng-repeat="de in dept track by $index" value="{{de.Id}}">{{de.Department}}</option>
                                 </select>
                                 <div ng-show="form.$submitted || form.d.$touched">
                                     <div class="alert bg-red" ng-show="form.d.$error.required">Please Select Department.</div>
@@ -87,12 +83,13 @@
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                                 <h2 class="card-inside-title">Sub Module</h2>
                                 <select class="form-control show-tick" name="mod" ng-model="mod" required>
-                                    <option value="">Select Submodule</option>
-                                    <option value="Delivery">Delivery</option>
-                                    <option value="Operations">Operations</option>
-                                    <option value="Audit">Audit</option>
-                                    <option value="ER">ER</option>
-                                    <option value="Finance">Finance</option>
+                                    <option ng-repeat="mod in selected_mod track by $index" value="{{mod.Id}}">{{mod.Module}}</option>
+                                    @*<option value="">Select Submodule</option>
+                                        <option value="Delivery">Delivery</option>
+                                        <option value="Operations">Operations</option>
+                                        <option value="Audit">Audit</option>
+                                        <option value="ER">ER</option>
+                                        <option value="Finance">Finance</option>*@
                                 </select>
                                 <div ng-show="form.$submitted || form.mod.$touched">
                                     <div class="alert bg-red" ng-show="form.mod.$error.required">Please Select Module.</div>

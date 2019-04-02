@@ -3,55 +3,30 @@
 }
 @section customjs{
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.6/angular.min.js"></script>
+    <script src="~/Scripts/public_factory.js"></script>
+    <script src="~/Scripts/public_controller.js"></script>
     <script>
-        var public = angular.module('Home', []);
-        public.factory("GetTop", function ($http) {
-            return {
-                getTop: function () {
-                    return $http.get('/Home/GetTop').then(function (response) {
-                        return response.data;
-                    })
-                }
-            }
+        $('body').on('click', '.menu-toggle', function () {
+            $(this).next().toggle()
         })
-        public.controller('Index',["GetTop","$scope","$sce", function (GetTop,$scope,$sce) {
-            $scope.module;
-            $scope.questions_answers;
-            $scope.whichModule = function (m) {
-                $http.get("ModuleQuestion", { mod: m }).then(function (response) {
-                    $scope.question_answers = response.data
-                })
-                //get the data from server here and display it in the body
-                $scope.module = m + " Module";
-            }
-            var qPromise = GetTop.getTop();
-            qPromise.then(function (response) {
-                $scope.questions_answers = response;
-                for (var i = 0; i < $scope.questions_answers.length; i++) {
-                    $scope.questions_answers[i].TrustedAns = $sce.trustAsHtml($scope.questions_answers[i].Answer)
-                }
-                console.log($scope.questions_answers)
-            })
-            
-        }]);
     </script>
 }
 <div class="container-fluid">
     <div class="block-header">
-        <h2>{{module}}</h2>
+        <h2></h2>
     </div>
-    <div class="row clearfix" ng-controller="Index">
+    <div class="row clearfix">
         <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
             <div class="card">
                 <div class="header">
-                    <h2>Our Most Viewed Questions</h2>
+                    <h2>{{module}}</h2>
                 </div>
                 <div class="body">
                     <div class="row">
-                        <div ng-repeat="q in questions_answers" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                            <button class="btn bg-cyan waves-effect m-b-10" type="button" data-toggle="collapse" data-target="#{{q.Id}}" aria-expanded="false"
+                        <div ng-repeat="q in question_answers" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <button ng-click="findRelated(q.Id)" class="btn bg-cyan waves-effect m-b-10" type="button" data-toggle="collapse" data-target="#{{q.Id}}" aria-expanded="false"
                                     aria-controls="collapseExample">
-                               {{q.Question}}
+                                {{q.Question}}
                             </button>
                             <div class="collapse" id="{{q.Id}}">
                                 <div class="well">
@@ -69,7 +44,19 @@
                     <h2>Related Question</h2>
                 </div>
                 <div class="body">
-                    
+                    <div class="row">
+                        <div ng-repeat="q in related" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <button ng-click="relClick($index)" class="btn bg-cyan waves-effect m-b-10" type="button" data-toggle="collapse" data-target="#{{q.Id}}" aria-expanded="false"
+                                    aria-controls="collapseExample">
+                                {{q.Question}}
+                            </button>
+                            <div class="collapse" id="{{q.Id}}">
+                                <div class="well">
+                                    <p ng-bind-html="q.TrustedAns"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

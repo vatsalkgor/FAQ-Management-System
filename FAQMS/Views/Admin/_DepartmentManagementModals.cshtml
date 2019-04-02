@@ -1,0 +1,54 @@
+﻿<div class="modal fade" id="addDept" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title card-inside-title" id="defaultModalLabel">Add New Department</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="form-group">
+                        <div class="form-line">
+                            <input style="margin:0px;" ng-model="new_dept" type="text" class="form-control" placeholder="New Department" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" ng-click="add_dept(new_dept)" class="btn btn-link waves-effect">SAVE CHANGES</button>
+                <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">CLOSE</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="addMod" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title card-inside-title" id="defaultModalLabel">Add New Module</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="form-group">
+                        <div class="form-line">
+                            <input style="margin:0px;" ng-model="new_mod" type="text" class="form-control" placeholder="New Module" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <p>Select Department</p>
+                        <div class="col-md-6">
+                            <select class="form-control show-tick" style="border:1px solid black" name="d" ng-model="d" required>
+                                <option ng-repeat="d in dept track by $index" value="{{d.Id}}">{{d.Department}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" ng-click="add_mod(new_mod,d)" class="btn btn-link waves-effect">SAVE CHANGES</button>
+                <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">CLOSE</button>
+            </div>
+        </div>
+    </div>
+</div>

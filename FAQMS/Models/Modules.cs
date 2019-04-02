@@ -6,11 +6,10 @@ using System.Web;
 
 namespace FAQMS.Models
 {
-    public class Admin
+    public class Modules
     {
         public int Id { get; set; }
-        public String a_name { get; set; }
-        public String a_pass { get; set; }
-        public String a_opass { get; set; }
+        public string Module { get; set; }
+        public int DId { get; set; }
     }
 }

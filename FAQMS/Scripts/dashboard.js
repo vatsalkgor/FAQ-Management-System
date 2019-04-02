@@ -1,26 +1,4 @@
-﻿var dashboard = angular.module('layout', ['ui.bootstrap', 'ui.bootstrap.pagination']);
-dashboard.controller('Layout', function ($scope) {
-    //http request to get the count of all depts
-    $scope.count = { delivery: 20, ops: 52, audit: 65, er: 124, finance: 15 };
-});
-dashboard.factory("questionService", function ($http) {
-    return {
-        getQues: function () {
-            return $http.get('/Admin/GetQuestions').then(function (response) {
-                return response.data;
-            })
-        }
-    }
-})
-dashboard.controller('Dashboard', ['$scope', "questionService", "$http", "$window", "$compile", function ($scope, questionService, $http, $window, $compile) {
-    $scope.dept = "Delivery";
-    $scope.selected = [];
-
-
-
-    $scope.change = function (d) {
-        $scope.dept = d;
-    }
+﻿dashboard.controller('Dashboard', ['$scope', "questionService", "DeptFactory", "$window", "$compile", function ($scope, questionService,DeptFactory, $window, $compile) {
     //helper function to shorten the answer to 150 characters
     function refineQues(r) {
         //Substring Logic
@@ -40,12 +18,8 @@ dashboard.controller('Dashboard', ['$scope', "questionService", "$http", "$windo
         return r;
     }
 
-    //question promise to get all questions
-    var getQuesPromise = questionService.getQues();
-    getQuesPromise.then(function (response) {
-
-        $scope.questions_answers = refineQues(response)
-        //Pagination Logic 
+    //helper function for pagination
+    function pagination(q) {
         $scope.filteredTodos = []
             , $scope.currentPage = 1
             , $scope.numPerPage = 10
@@ -54,21 +28,54 @@ dashboard.controller('Dashboard', ['$scope', "questionService", "$http", "$windo
         $scope.$watch("currentPage + numPerPage", function () {
             var begin = (($scope.currentPage - 1) * $scope.numPerPage)
                 , end = begin + $scope.numPerPage;
-            $scope.filteredTodos = $scope.questions_answers.slice(begin, end);
+            $scope.filteredTodos = q.slice(begin, end);
         });
+    }
+
+    $scope.questions = "All Questions"
+    $scope.selected = [];
+    DeptFactory.getDeptCount().then(function (response) {
+        $scope.depts = response;
+    })
+    $scope.change = function (id, name) {
+        if ($window.location.href.split("/")[4] != "Dashboard") {
+            $window.location.href = "/Admin/Dashboard"
+        }
+        $scope.questions = "Questions for Department " + name;
+        questionService.getQuesForDept(id).then(function (response) {
+            $scope.questions_answers = refineQues(response)
+            //Pagination Logic 
+            pagination($scope.questions_answers);
+        })
+    }
+
+    //question promise to get all questions
+    questionService.getQues().then(function (response) {
+
+        $scope.questions_answers = refineQues(response)
+        //Pagination Logic 
+        pagination($scope.questions_answers);
+    })
+
+    $("#search").keyup(function (e) {
+        if (e.which == 13 && $(this).val() != "") {
+            questionService.searchQuestions($(this).val()).then(function (response) {
+                $scope.questions_answers = refineQues(response)
+                pagination($scope.questions_answers);
+            })
+            
+        }
     })
 
     //Toggle State of Question
     $scope.toggleStatus = function (id, key) {
-        $http.post("UpdateQueStatus", { id: id, new_status: !$scope.questions_answers[key].Status }).then(function (response) {
-            if (response.data) {
+        questionService.toggleStatus(id, !$scope.questions_answers[key].Status).then(function(response){
+            if (response) {
                 questionService.getQues().then(function (response) {
                     $scope.questions_answers = response
                 })
                 alert("Status Updated. ");
-                $window.location.reload()
-            }
-            else {
+            }else {
                 alert("Something Went Wrong. Contact Admin.")
             }
         })
@@ -77,9 +84,9 @@ dashboard.controller('Dashboard', ['$scope', "questionService", "$http", "$windo
     //Delete Question Logic
     $scope.del_que = function (id) {
         if (confirm("Are you sure you want to Delete the question? This is an irreversible Action.")) {
-            $http.post("DelQue", { id: id }).then(function (response) {
-                if (response.data) {
-                    alert("Question Deleted.")
+            questionService.delQue(id).then(function (response) {
+                if (response) {
+                    alert("Question Deleted");
                     $window.location.reload();
                 } else {
                     alert("Something went wrong.")
@@ -106,7 +113,7 @@ dashboard.controller('Dashboard', ['$scope', "questionService", "$http", "$windo
             "<div class=col-md-12>" +
             "<p>" + $scope.questions_answers[id].Answer + "</p>" +
             "</div>" +
-            "<div class=col-md-3><button class='btn btn-success waves-effect'>Edit</button></div>" +
+            "<div class=col-md-3><a href=/Admin/EditQuestion/" + $scope.questions_answers[id].Id + "><button class='btn btn-success waves-effect'>Edit</button></a></div>" +
             "<div class=col-md-3><button ng-click='del_que(" + $scope.questions_answers[id].Id + ")' class='btn btn-danger'>Delete</button></div>" +
             "<div class=col-md-3><button ng-click='toggleStatus(" + $scope.questions_answers[id].Id + "," + id + ")' class='btn btn-danger'>" + status + "</button></div>" +
             "<div class=col-md-3><button class='btn btn-danger' onclick='qclose(" + id + ")'>Close</button></div>"
@@ -134,9 +141,8 @@ dashboard.controller('Dashboard', ['$scope', "questionService", "$http", "$windo
                 }
             }
             if (isStatusInactive) {
-
-                $http.post("MakeAllActive", { data: data, new_stat: true }).then(function (response) {
-                    if (response.data) {
+                questionService.toggleSelectedStatus(data, true).then(function (response) {
+                    if (response) {
                         alert("Status changed for selected Questions.")
                         $window.location.reload();
                     } else {
@@ -167,8 +173,8 @@ dashboard.controller('Dashboard', ['$scope', "questionService", "$http", "$windo
                 }
             }
             if (isStatusActive) {
-                $http.post("MakeAllActive", { data: data, new_stat: false }).then(function (response) {
-                    if (response.data) {
+                questionService.toggleSelectedStatus(data, false).then(function (response) {
+                    if (response) {
                         alert("Status changed for selected Questions.")
                         $window.location.reload();
                     } else {
@@ -191,8 +197,8 @@ dashboard.controller('Dashboard', ['$scope', "questionService", "$http", "$windo
                     data.push($scope.questions_answers[i].Id)
                 }
             }
-            $http.post("DeleteSelected", { data: data }).then(function (response) {
-                if (response.data) {
+            questionService.deleteSelected(data).then(function (response) {
+                if (response) {
                     alert("Questions deleted Successfully.")
                     $window.location.reload();
                 } else {
@@ -206,7 +212,7 @@ dashboard.controller('Dashboard', ['$scope', "questionService", "$http", "$windo
 }])
 
 //controller for Create Question/Edit Question
-dashboard.controller("questions", function ($scope, $http) {
+dashboard.controller("questions", function ($scope,questionService,$window, DeptFactory, ModuleFactory) {
     $scope.createQ = function (isValid) {
         if (isValid && $scope.form.answer != "" && $scope.form.answer != "<p><br></p>") {
             var data = {};
@@ -216,9 +222,10 @@ dashboard.controller("questions", function ($scope, $http) {
             data.tags = $scope.form.selected_tags.$viewValue;
             data.notes = $scope.form.notes.$viewValue;
             data.answer = $("#answer").summernote('code');
-            $http.post("PutQuestion", data).then(function (response) {
-                if (response.data) {
+            questionService.createQuestion(data).then(function (response) {
+                if (response) {
                     alert("Successfully Added Question.")
+                    $window.location.reload()
                 } else {
                     alert("Something Went wrong. Please Contact Admin.")
                 }
@@ -227,63 +234,60 @@ dashboard.controller("questions", function ($scope, $http) {
             alert("Please Fill all fields including Answer in the given Text Editor")
         }
     }
-
+    DeptFactory.getDept().then(function (response) {
+        $scope.dept = response
+    })
     $scope.previewQ = function () {
         answer = $("#answer").summernote('code');
         $("#previewanswer").html(answer)
     }
-})
-
-
-// Tags Managment Factory for reteriving Tags.
-dashboard.factory("getTags", function ($http) {
-    return {
-        getTags: function () {
-            return $http.get("/Admin/GetTags").then(function (response) {
-                return response.data
-            })
-        }
+    $scope.change_dept = function (id) {
+        ModuleFactory.searchModById(id).then(function (response) {
+            $scope.selected_mod = response
+        })
     }
+    
+
+    ModuleFactory.getAllModules().then(function (response) {
+        $scope.all_mod = response
+    })
 })
 
 //controller for Tags Management
-dashboard.controller("tagsmgmt", function ($scope, getTags, $http) {
-    tagsPromise = getTags.getTags();
-    tagsPromise.then(function (response) {
+dashboard.controller("tagsmgmt", function ($scope, TagsFactory) {
+    TagsFactory.getTags().then(function (response) {
         $scope.tags = response;
     })
-
     $scope.new_tag;
     $scope.add = function (tag) {
-        $http.post("AddTag", { tag: tag }).then(function (response) {
-            if (response.data == 0) {
+        TagsFactory.addTag(tag).then(function (response) {
+            if (response == 0) {
                 alert("Please Enter a Tag.")
-            } else if (response.data == 1) {
+            } else if (response == 1) {
                 alert("Tag Already Exists.")
             } else {
                 $("#addTag").modal("hide");
                 alert("Successfully Added.");
-                getTags.getTags().then(function (response) {
+                TagsFactory.getTags().then(function (response) {
                     $scope.tags = response
                 })
             }
         })
     }
-
     $scope.save = function (id) {
         new_tag = $("#" + id).html()
         //HTTP POST request for updating the value
-        $http.post("UpdateTag/" + id + "/" + new_tag).then(function (response) {
-            if (response.data == 1) {
-                getTags.getTags().then(function (response) {
+        TagsFactory.updateTag(id,new_tag).then(function (response) {
+            if (response == 1) {
+                TagsFactory.getTags().then(function (response) {
                     $scope.tags = response
                 })
                 alert("Successfully Updated.")
             }
-            else if (response.data == -1) {
+            else if (response == -1) {
                 alert("Something went wrong. Contact Admin.")
             } else {
-                getTags.getTags().then(function (response) {
+                TagsFactory.getTags().then(function (response) {
                     $scope.tags = response
                 })
                 alert("New tag already exist. Please provide unique names for each tag.")
@@ -294,11 +298,10 @@ dashboard.controller("tagsmgmt", function ($scope, getTags, $http) {
         //ask for confirmation
         if (confirm("Are you sure you want to delete the tag? This Action is irreversible.")) {
             //HTTP delete request for delete
-            $http.post("DeleteTag", { id: id }).then(function (response) {
-                console.log(response.data);
-                if (response.data == 1) {
+            TagsFactory.deleteTag(id).then(function (response) {
+                if (response == 1) {
                     alert("Tag deleted.")
-                    getTags.getTags().then(function (response) {
+                    TagsFactory.getTags().then(function (response) {
                         $scope.tags = response
                     })
                 } else {
@@ -306,18 +309,149 @@ dashboard.controller("tagsmgmt", function ($scope, getTags, $http) {
                 }
             })
         }
-
     }
 
     //search on hitting enter
     $("#tag_search").keyup(function (e) {
         if (e.which == 13) {
             if ($(this).val() != "") {
-                $http.post("SearchTag", { query: $(this).val() }).then(function (response) {
-                    $scope.tags = response.data;
+                TagsFactory.searchTag($(this).val()).then(function (response) {
+                    $scope.tags = response;
+                    console.log($scope.tags)
+                })
+            }
+        }
+    })
+})
+
+dashboard.controller("Department", function (DeptFactory, ModuleFactory, $scope) {
+    DeptFactory.getDept().then(function (response) {
+        $scope.dept = response
+    })
+    ModuleFactory.getMod().then(function (response) {
+        $scope.mod = response
+    })
+
+    $scope.add_dept = function (dept) {
+        DeptFactory.addDept(dept).then(function (response) {
+            if (response == 0) {
+                alert("Please Enter a Department.")
+            } else if (response == 1) {
+                alert("Department Already Exists.")
+            } else {
+                $("#addDept").modal("hide");
+                alert("Successfully Added.");
+                DeptFactory.getDept().then(function (response) {
+                    $scope.dept = response
+                })
+            }
+
+        })
+    }
+    $scope.dept_save = function (id) {
+        new_dept = $("#d" + id).html()
+        //HTTP POST request for updating the value
+        DeptFactory.updateDept(id,new_dept).then(function (response) {
+            if (response == 1) {
+                DeptFactory.getDept().then(function (response) {
+                    $scope.dept = response
+                })
+                alert("Successfully Updated.")
+            }
+            else if (response == -1) {
+                alert("Something went wrong. Contact Admin.")
+            } else {
+                DeptFactory.getDept().then(function (response) {
+                    $scope.dept = response
+                })
+                alert("New tag already exist. Please provide unique names for each tag.")
+            }
+        })
+    }
+    $scope.dept_delete = function (id) {
+        if (confirm("Are you sure you want to delete the tag? This Action is irreversible.")) {
+            //HTTP delete request for delete
+            DeptFactory.deleteDept(id).then(function (response) {
+                console.log(response.data);
+                if (response == 1) {
+                    alert("Department deleted.")
+                    DeptFactory.getDept().then(function (response) {
+                        $scope.dept = response
+                    })
+                } else {
+                    alert("Something Went Wrong. Please contact Admin.")
+                }
+            })
+        }
+    }
+    $("#dept_search").keyup(function (e) {
+        if (e.which == 13) {
+            if ($(this).val() != "") {
+                DeptFactory.searchDept($(this).val()).then(function (response) {
+                    $scope.dept = response.data;
                 })
             }
         }
     })
 
+    $scope.mod_save = function (id) {
+        new_mod = $("#m" + id).html()
+        //HTTP POST request for updating the value
+        ModuleFactory.updateMod(id,new_mod).then(function (response) {
+            if (response == 1) {
+                ModuleFactory.getMod().then(function (response) {
+                    $scope.dept = response
+                })
+                alert("Successfully Updated.")
+            }
+            else if (response == -1) {
+                alert("Something went wrong. Contact Admin.")
+            } else {
+                ModuleFactory.getMod().then(function (response) {
+                    $scope.dept = response
+                })
+                alert("New tag already exist. Please provide unique names for each tag.")
+            }
+        })
+    }
+    $scope.mod_delete = function (id) {
+        if (confirm("Are you sure you want to delete the Module? This Action is irreversible.")) {
+            //HTTP delete request for delete
+            ModuleFactory.deleteMod(id).then(function (response) {
+                if (response == 1) {
+                    alert("Module deleted.")
+                    ModuleFactory.getMod().then(function (response) {
+                        $scope.mod = response
+                    })
+                } else {
+                    alert("Something Went Wrong. Please contact Admin.")
+                }
+            })
+        }
+    }
+    $scope.add_mod = function (mod, d) {
+        ModuleFactory.addMod(mod,d).then(function (response) {
+            if (response == 0) {
+                alert("Please Enter a Module.")
+            } else if (response == 1) {
+                alert("Module Already Exists.")
+            } else {
+                $("#addMod").modal("hide");
+                alert("Successfully Added.");
+                ModuleFactory.getMod().then(function (response) {
+                    console.log(response)
+                    $scope.mod = response
+                })
+            }
+        })
+    }
+    $("#mod_search").keyup(function (e) {
+        if (e.which == 13) {
+            if ($(this).val() != "") {
+                ModuleFactory.seachMod($(this).val()).then(function (response) {
+                    $scope.mod = response.data;
+                })
+            }
+        }
+    })
 })

@@ -1,0 +1,110 @@
+﻿@{
+    ViewBag.Title = "Department Management";
+}
+@section customcss{
+    @*<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />*@
+    <link href="~/Content/dashboard.css" rel="stylesheet" />
+}
+@section customjs{
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.6/angular.min.js"></script>
+    <script src="~/Scripts/ui-bootstrap-tpls-2.5.0.min.js"></script>
+    <script src="~/Scripts/dashboard_factories.js"></script>
+    <script src="~/Scripts/dashboard.js"></script>
+    <script>
+        $(document).on('mouseover', '[data-toggle="tooltip"]', function () {
+            $(this).tooltip({
+                container: 'body'
+            })
+        })
+        $(document).on('dblclick', '.editable', function () {
+            $(this).attr("contenteditable", "true")
+        })
+    </script>
+    @*<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>*@
+    <script>
+                //$("select").select2();
+    </script>
+}
+<div class="container-fluid" ng-controller="Department">
+    <div class="row clearfix">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="header">
+                    <h2>Departments</h2>
+                    <ul class="header-dropdown">
+                        <li>
+                            <input style="margin:0px;height:auto" id="dept_search" type="text" placeholder="Search for Departments " />
+                        </li>
+                        <li>&nbsp;</li>
+                        <li class="dropdown" data-toggle="tooltip" data-placement="bottom" data-original-title="Add New Department">
+                            <a href="javascript:void(0);" data-toggle="modal" data-target="#addDept">
+                                <i class="material-icons">add</i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="body">
+                    <div class="table-responsive">
+                        <table id="tagstable" class="table table-bordered table-striped table-hover js-basic-example dataTable">
+                            <thead>
+                                <tr>
+                                    <th>Department</th>
+                                    <th>Save Edited</th>
+                                    <th>Delete</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="d in dept track by $index">
+                                    <td data-toggle="tooltip" id="d{{d.Id}}" data-placement="left" data-original-title="Double click to Edit" class="editable" style="cursor:pointer">{{d.Department}}</td>
+                                    <td width="10%"><a ng-click="dept_save(d.Id)" style="margin:20px;" href="javascript:void(0)"><i class="material-icons">check</i></a></td>
+                                    <td width="10%"><a ng-click="dept_delete(d.Id)" style="margin:20px;" href="javascript:void(0)"><i class="material-icons">delete</i></a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="header">
+                    <h2>Modules</h2>
+                    <ul class="header-dropdown">
+                        <li>
+                            <input style="margin:0px;height:auto" id="mod_search" type="text" placeholder="Search for Module" />
+                        </li>
+                        <li>&nbsp;</li>
+                        <li class="dropdown" data-toggle="tooltip" data-placement="bottom" data-original-title="Add New Module">
+                            <a href="javascript:void(0);" data-toggle="modal" data-target="#addMod">
+                                <i class="material-icons">add</i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="body">
+                    <div class="table-responsive">
+                        <table id="tagstable" class="table table-bordered table-striped table-hover js-basic-example dataTable">
+                            <thead>
+                                <tr>
+                                    <th>Module</th>
+                                    <th>Department</th>
+                                    <th>Save Edited</th>
+                                    <th>Delete</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="m in mod">
+                                    <td data-toggle="tooltip" id="m{{m.Id}}" data-placement="left" data-original-title="Double click to Edit" class="editable" style="cursor:pointer">{{m.Module}}</td>
+                                    <td class="editable">{{m.Department}}</td>
+                                    <td width="10%"><a ng-click="save(m.Id)" style="margin:20px;" href="javascript:void(0)"><i class="material-icons">check</i></a></td>
+                                    <td width="10%"><a ng-click="delete(m.Id)" style="margin:20px;" href="javascript:void(0)"><i class="material-icons">delete</i></a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @Html.Partial("_DepartmentManagementModals")
+</div>

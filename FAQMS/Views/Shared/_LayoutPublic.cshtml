@@ -31,6 +31,22 @@
             <p>Please wait...</p>
         </div>
     </div>
+    {{loading}}
+    <div ng-show="loading" class="loading" style="opacity:0.5">
+        <div class="loader">
+            <div class="preloader">
+                <div class="spinner-layer pl-red">
+                    <div class="circle-clipper left">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="circle-clipper right">
+                        <div class="circle"></div>
+                    </div>
+                </div>
+            </div>
+            <p>Please wait...</p>
+        </div>
+    </div>
     @* Overlay for preloader *@
     <div class="overlay"></div>
     @* Searchbar start *@
@@ -38,7 +54,7 @@
         <div class="search-icon">
             <i class="material-icons">search</i>
         </div>
-        <input type="text" style="background-color:white;" placeholder="START TYPING...">
+        <input type="text" id="public_search" style="background-color:white;" placeholder="START TYPING...">
         <div class="close-search">
             <i class="material-icons">close</i>
         </div>
@@ -70,46 +86,16 @@
             <div class="menu">
                 <ul class="list">
                     <li class="header">DEPARTMENTS</li>
-                    <li>
+                    <li ng-repeat="deptmod in deptmods">
                         <a href="javascript:void(0)" class="menu-toggle">
                             <i class="material-icons">card_travel</i>
-                            <span>Delivery</span>
+                            <span>{{deptmod[0].Department}}</span>
                         </a>
                         <ul class="ml-menu">
-                            <li>
-                                <a id="dash" href="javascript:void(0)" ng-click="whichModule('Dashboard')">Dashboard</a>
-                            </li>
-                            <li>
-                                <a href="javascript:void(0)" ng-click="whichModule('Requirement')">Requirement</a>
-                            </li>
-                            <li>
-                                <a href="javascript:void(0)" ng-click="whichModule('Applicant')">Applicant</a>
+                            <li ng-repeat="mod in deptmod">
+                                <a id="dash" href="javascript:void(0)" ng-click="whichModule(mod.Id,mod.Module)">{{mod.Module}}</a>
                             </li>
                         </ul>
-                    </li>
-                    <li>
-                        <a href="" >
-                            <i class="material-icons">info</i>
-                            <span>Operations</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="" >
-                            <i class="material-icons">history</i>
-                            <span>Audit</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="">
-                            <i class="material-icons">group</i>
-                            <span>ER</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="">
-                            <i class="material-icons">account_balance</i>
-                            <span>Finance</span>
-                        </a>
                     </li>
                 </ul>
             </div>

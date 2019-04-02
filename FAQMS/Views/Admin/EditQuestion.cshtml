@@ -14,10 +14,12 @@
 }
 @{
     var data = (QuestionAnswer)ViewData["qa"];
+    var tags = @Html.Raw(Json.Encode(ViewData["tags"]));
 }
 @section customjs{
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.6/angular.min.js"></script>
     <script src="~/Scripts/ui-bootstrap-tpls-2.5.0.min.js"></script>
+    <script src="~/Scripts/dashboard_factories.js"></script>
     <script src="~/Scripts/dashboard.js"></script>
     <script src="~/Scripts/dropzone.min.js"></script>
     <script src="~/Scripts/summernotebs3/summernote.js"></script>
@@ -40,7 +42,38 @@
             $("select[name=d]").trigger('change');
             $("select[name=mod]").val("@data.Module");
             $("select[name=mod]").trigger('change');
-            $("*[data-select2-id='7']").css("width", "430px");
+            $("*[data-select2-id='5']").css("width", "430px");
+            var tags = @tags;
+            var selected_tags = []
+            for (var i = 0; i < tags.Data.length; i++) {
+                selected_tags.push(tags.Data[i].TagId);
+            }
+            console.log(selected_tags)
+            setTimeout(function () {
+                $("#tags").val(selected_tags)
+                $("#tags").trigger('change');
+            }, 500)
+
+            $("#submit").click(function (e) {
+                e.preventDefault();
+                var question = $("input[name=question]").val();
+                var answer = $("#answer").summernote('code').trim();
+                var notes = $("input[name=notes]").val();
+                var tags = $("#tags").val();
+                var data = { q: question, a: answer, n: notes, t: tags, id: "@data.Id" };
+                console.log(data);
+                $.ajax({
+                    url: "/Admin/SaveEditedQuestion",
+                    method: "POST",
+                    data: data,
+                    success: function (response) {
+                        if (response == 1) {
+                            alert("Successfully Edited Question.Redirecting you to the Dashboard Now.")
+                            location.href = "/Admin/Dashboard";
+                        }
+                    }
+                })
+            })
         })
     </script>
 }
@@ -54,7 +87,7 @@
                 </div>
                 <div class="body">
                     <div class="row">
-                        <form method="post" name="form" ng-submit="createQ(form.$valid)" novalidate>
+                        <form method="post" name="form" novalidate>
                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                 <h2 class="card-inside-title">Question</h2>
                                 <div class="form-group">
@@ -66,30 +99,20 @@
                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                 <h2 class="card-inside-title">Answer</h2>
                                 @*<textarea id="answer" name="answer"></textarea>*@
-                                <div class="summernote">
+                                <div id="answer" class="summernote">
                                     @(new HtmlString(data.Answer))
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                                 <h2 class="card-inside-title">Department</h2>
-                                <select class="form-control show-tick" name="d" value="@data.Department" required>
-                                    <option value="">Select Submodule</option>
-                                    <option value="Delivery">Delivery</option>
-                                    <option value="Operations">Operations</option>
-                                    <option value="Audit">Audit</option>
-                                    <option value="ER">ER</option>
-                                    <option value="Finance">Finance</option>
+                                <select class="form-control show-tick" name="d" value="@data.Department" required disabled>
+                                    <option ng-repeat="d in dept track by $index" value="{{d.Id}}">{{d.Department}}</option>
                                 </select>
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                                 <h2 class="card-inside-title">Sub Module</h2>
-                                <select class="form-control show-tick" name="mod" required>
-                                    <option value="">Select Submodule</option>
-                                    <option value="Delivery">Delivery</option>
-                                    <option value="Operations">Operations</option>
-                                    <option value="Audit">Audit</option>
-                                    <option value="ER">ER</option>
-                                    <option value="Finance">Finance</option>
+                                <select class="form-control show-tick" name="mod" value="@data.Module" disabled required>
+                                    <option ng-repeat="mod in all_mod track by $index" value="{{mod.Id}}">{{mod.Module}}</option>
                                 </select>
                             </div>
                             <div class="row">
@@ -105,17 +128,11 @@
                                     <h2 class="card-inside-title">Tags</h2>
                                     <select id="tags" name="selected_tags" multiple required>
                                         <option ng-repeat="tag in tags" value="{{tag.Id}}">{{tag.Tag}}</option>
-                                        @*<option>Requirements</option>
-                                            <option>Applicants</option>
-                                            <option>Calendar</option>
-                                            <option>Client</option>
-                                            <option>Client Contact</option>
-                                            <option>Resume Manager</option>*@
                                     </select>
                                 </div>
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                                <button type="submit" style="color:white;" class="btn btn-success waves-effect center">Submit</button>
+                                <button type="submit" id="submit" style="color:white;" class="btn btn-success waves-effect center">Submit</button>
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                 <button type="button" ng-click="previewQ()" style="color:white;" data-toggle="modal" data-target="#previewQuestion" class="btn btn-success waves-effect">Preview</button>

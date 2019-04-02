@@ -10,14 +10,8 @@
 @section customjs{
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.6/angular.min.js"></script>
     <script src="~/Scripts/ui-bootstrap-tpls-2.5.0.min.js"></script>
+    <script src="~/Scripts/dashboard_factories.js"></script>
     <script src="~/Scripts/dashboard.js"></script>
-    @*<script src="~/Scripts/dropzone.min.js"></script>
-    <script>
-        Dropzone.options.frmFileUpload = {
-            paramName: "file",
-            maxFilesize: 2
-        }
-    </script>*@
     <script>
         function qclose(id) {
             $("#desc_question").html('')
@@ -37,7 +31,7 @@
                 <div class="header">
                     <div class="row">
                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                            <center><h2 style="font-size:20px; padding-top:10px;">Questions for Department {{dept}}</h2></center>
+                            <center><h2 style="font-size:20px; padding-top:10px;">{{questions}}</h2></center>
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                             <div class="btn-group pull-right">

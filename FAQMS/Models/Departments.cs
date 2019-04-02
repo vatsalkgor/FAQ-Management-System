@@ -6,11 +6,12 @@ using System.Web;
 
 namespace FAQMS.Models
 {
-    public class Admin
+    public class Departments
     {
         public int Id { get; set; }
-        public String a_name { get; set; }
-        public String a_pass { get; set; }
-        public String a_opass { get; set; }
+        public String Department { get; set; }
+        //public ICollection<CourseAssignment> CourseAssignments { get; set; }
+
     }
+
 }

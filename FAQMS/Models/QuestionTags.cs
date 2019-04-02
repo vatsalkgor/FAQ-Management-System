@@ -12,8 +12,4 @@ namespace FAQMS.Models
         public int QId { get; set; }
         public int TagId { get; set; }
     }
-    public class QuestionTagsDBContext : DbContext
-    {
-        public DbSet<QuestionTags> QT { get; set; }
-    }
 }
