@@ -8135,6 +8135,20 @@ section.content {
     overflow: hidden;
     text-align: center;
 }
+.page-loader-wrapper-custom {
+    z-index: 99999999;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background: #eee;
+    opacity:0.5;
+    overflow: hidden;
+    text-align: center;
+}
 
     .page-loader-wrapper p {
         font-size: 13px;
@@ -8142,8 +8156,18 @@ section.content {
         font-weight: bold;
         color: #444;
     }
+    .page-loader-wrapper-custom p {
+        font-size: 13px;
+        margin-top: 10px;
+        font-weight: bold;
+        color: #444;
+    }
 
     .page-loader-wrapper .loader {
+        position: relative;
+        top: calc(50% - 30px);
+    }
+    .page-loader-wrapper-custom .loader {
         position: relative;
         top: calc(50% - 30px);
     }

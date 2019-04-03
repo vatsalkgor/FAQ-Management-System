@@ -2,7 +2,7 @@
     $scope.module = "Our Most Viewed Question";
     $scope.question_answers;
     $scope.whichModule = function (m, mod) {
-        $(".page-loader-wrapper").show();
+        $(".page-loader-wrapper-custom").show();
         questions.moduleQuestion(m).then(function (response) {
             $scope.question_answers = response
             for (var i = 0; i < $scope.question_answers.length; i++) {
@@ -11,7 +11,7 @@
         })
         //get the data from server here and display it in the body
         $scope.module = mod + " Module";
-        $(".page-loader-wrapper").hide();
+        $(".page-loader-wrapper-custom").hide();
 
     }
     questions.getTop().then(function (response) {
@@ -19,37 +19,39 @@
         for (var i = 0; i < $scope.question_answers.length; i++) {
             $scope.question_answers[i].TrustedAns = $sce.trustAsHtml($scope.question_answers[i].Answer)
         }
-        $(".page-loader-wrapper").hide();
+        $(".page-loader-wrapper-custom").hide();
     })
     deptmod.getDeptMod().then(function (response) {
         $scope.deptmods = response
-        $(".page-loader-wrapper").hide();
+        $(".page-loader-wrapper-custom").hide();
     })
 
     $scope.findRelated = function (id) {
-        $(".page-loader-wrapper").show();
+        $(".page-loader-wrapper-custom").show();
         questions.findRelated(id).then(function (response) {
             $scope.related = response
             for (var i = 0; i < $scope.related.length; i++) {
                 $scope.related[i].TrustedAns = $sce.trustAsHtml($scope.related[i].Answer)
             }
         })
-        $(".page-loader-wrapper").hide();
+        $(".page-loader-wrapper-custom").hide();
 
     }
     $scope.relClick = function (id) {
         if (!inMainQuestion(id)) {
             $scope.question_answers.push($scope.related[id]);
             $scope.findRelated($scope.related[id].Id);
-            $("button[data-target=" + $scope.related[id].Id+"]").click();
+            console.log($("button[data-target=" + $scope.related[id].Id + "]").val())
+            $("button[data-target=" + $scope.related[id].Id + "]").click();
             console.log("#" + $scope.related[id].Id);
             setTimeout(function () { $("#" + $scope.related[id].Id)[0].scrollIntoView({ behavior: "smooth" }) }, 500);
         }
         else {
             $scope.findRelated($scope.related[id].Id)
-            $("button[data-target=" + $scope.related[id].Id+"]").click();
+            console.log($("button[data-target=" + $scope.related[id].Id + "]").val())
+            $("button[data-target=" + $scope.related[id].Id + "]").click();
             console.log("#" + $scope.related[id].Id);
-            setTimeout(function () { $("#" + $scope.related[id].Id)[0].scrollIntoView({ behavior: "smooth" }) }, 500);
+            setTimeout(function () { console.log("alsdkfj"); $("#" + $scope.related[id].Id)[0].scrollIntoView({ behavior: "smooth" }) }, 500);
         }
     }
 
@@ -64,7 +66,7 @@
 
     $("#public_search").keyup(function (e) {
         if (e.which == 13 && $(this).val() != "") {
-            $(".page-loader-wrapper").show();
+            $(".page-loader-wrapper-custom").show();
             questions.searchQuestion($(this).val()).then(function (response) {
                 $scope.question_answers = response;
                 for (var i = 0; i < $scope.question_answers.length; i++) {
@@ -72,7 +74,7 @@
                 }
             })
             $scope.module = "Search Result For " + $(this).val()
-            $(".page-loader-wrapper").hide();
+            $(".page-loader-wrapper-custom").hide();
         }
     })
 }]);

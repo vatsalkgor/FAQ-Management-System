@@ -38,6 +38,7 @@
                 container: 'body'
             });
             $("select").select2();
+            $(".page-loader-wrapper-custom").show();
             $("select[name=d]").val("@data.Department");
             $("select[name=d]").trigger('change');
             $("select[name=mod]").val("@data.Module");
@@ -52,10 +53,12 @@
             setTimeout(function () {
                 $("#tags").val(selected_tags)
                 $("#tags").trigger('change');
+                $(".page-loader-wrapper-custom").hide();
             }, 500)
 
             $("#submit").click(function (e) {
                 e.preventDefault();
+                $(".page-loader-wrapper-custom").hide();
                 var question = $("input[name=question]").val();
                 var answer = $("#answer").summernote('code').trim();
                 var notes = $("input[name=notes]").val();
@@ -68,6 +71,7 @@
                     data: data,
                     success: function (response) {
                         if (response == 1) {
+                            $(".page-loader-wrapper-custom").hide();
                             alert("Successfully Edited Question.Redirecting you to the Dashboard Now.")
                             location.href = "/Admin/Dashboard";
                         }

@@ -2,7 +2,7 @@
 public.factory("questions", function ($http) {
     return {
         getTop: function () {
-            $(".page-loader-wrapper").show();
+            $(".page-loader-wrapper-custom").show();
             return $http.get('/Home/GetTop').then(function (response) {
                 return response.data;
             })
@@ -28,7 +28,7 @@ public.factory("questions", function ($http) {
 public.factory("deptmod", function ($http) {
     return {
         getDeptMod: function () {
-            $(".page-loader-wrapper").show();
+            $(".page-loader-wrapper-custom").show();
             return $http.get("/Home/GetDeptMod").then(function (response) {
                 return response.data
             })

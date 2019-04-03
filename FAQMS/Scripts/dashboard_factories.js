@@ -2,7 +2,7 @@
 dashboard.factory("questionService", function ($http) {
     return {
         getQues: function () {
-            $(".page-loader-wrapper").show();
+            $(".page-loader-wrapper-custom").show();
             return $http.get('/Admin/GetQuestions').then(function (response) {
                 return response.data;
             })
@@ -46,12 +46,13 @@ dashboard.factory("questionService", function ($http) {
 dashboard.factory("DeptFactory", function ($http) {
     return {
         getDept: function () {
+            $(".page-loader-wrapper-custom").show();
             return $http.get("/Admin/GetDepts").then(function (response) {
                 return response.data
             })
         },
         getDeptCount: function () {
-            $(".page-loader-wrapper").show();
+            $(".page-loader-wrapper-custom").show();
             return $http.get("/Admin/GetDeptsCount").then(function (response) {
                 return response.data
             })
@@ -82,6 +83,7 @@ dashboard.factory("DeptFactory", function ($http) {
 dashboard.factory("ModuleFactory", function ($http) {
     return {
         getMod: function () {
+            $(".page-loader-wrapper-custom").show();
             return $http.get("/Admin/GetMods").then(function (response) {
                 return response.data
             })
@@ -112,6 +114,7 @@ dashboard.factory("ModuleFactory", function ($http) {
             })
         },
         getAllModules: function () {
+            $(".page-loader-wrapper-custom").show();
             return $http.get("/Admin/GetAllModule").then(function (response) {
                 return response.data
             })

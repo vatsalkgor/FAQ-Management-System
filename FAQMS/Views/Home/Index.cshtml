@@ -23,14 +23,30 @@
                 </div>
                 <div class="body">
                     <div class="row">
-                        <div ng-repeat="q in question_answers" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                            <button ng-click="findRelated(q.Id)" class="btn bg-cyan waves-effect m-b-10" type="button" data-toggle="collapse" data-target="#{{q.Id}}" aria-expanded="false"
-                                    aria-controls="collapseExample">
-                                {{q.Question}}
-                            </button>
-                            <div class="collapse" id="{{q.Id}}">
-                                <div class="well">
-                                    <p ng-bind-html="q.TrustedAns"></p>
+                        @*<div ng-repeat="q in question_answers" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <button ng-click="findRelated(q.Id)" class="btn bg-cyan waves-effect m-b-10" type="button" data-toggle="collapse" data-target="#{{q.Id}}" aria-expanded="false"
+                                        aria-controls="collapseExample">
+                                    {{q.Question}}
+                                </button>
+                                <div class="collapse" id="{{q.Id}}">
+                                    <div class="well">
+                                        <p ng-bind-html="q.TrustedAns"></p>
+                                    </div>
+                                </div>
+                            </div>*@
+                        <div class="panel-group col-lg-12 col-md-12 col-sm-12 col-xs-12" id="accordion_1" role="tablist" aria-multiselectable="true">
+                            <div class="panel panel-col-cyan" style="margin-bottom:20px;" ng-repeat="q in question_answers">
+                                <div class="panel-heading " role="tab" id="h{{q.Id}}">
+                                    <h4 class="panel-title">
+                                        <a class="waves-effect waves-block" role="button" ng-click="findRelated(q.Id)" data-toggle="collapse" data-parent="#accordion_1" href="#{{q.Id}}" aria-expanded="true" aria-controls="c{{q.Id}}">
+                                            {{q.Question}}
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="{{q.Id}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="h{{q.Id}}">
+                                    <div class="panel-body">
+                                        <p ng-bind-html="q.TrustedAns"></p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -46,7 +62,7 @@
                 <div class="body">
                     <div class="row">
                         <div ng-repeat="q in related" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                            <button ng-click="relClick($index)" class="btn bg-cyan waves-effect m-b-10" type="button" data-toggle="collapse" data-target="#{{q.Id}}" aria-expanded="false"
+                            <button style="width:100%" ng-click="relClick($index)" class="btn bg-cyan waves-effect m-b-10" type="button" data-toggle="collapse" data-target="#{{q.Id}}" aria-expanded="false"
                                     aria-controls="collapseExample">
                                 {{q.Question}}
                             </button>

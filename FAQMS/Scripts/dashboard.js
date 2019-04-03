@@ -1,4 +1,5 @@
-﻿dashboard.controller('Dashboard', ['$scope', "questionService", "DeptFactory", "$window", "$compile", function ($scope, questionService,DeptFactory, $window, $compile) {
+﻿//Dashboard Controller for RUD Question
+dashboard.controller('Dashboard', ['$scope', "questionService", "DeptFactory", "$window", "$compile", function ($scope, questionService, DeptFactory, $window, $compile) {
     //helper function to shorten the answer to 150 characters
     function refineQues(r) {
         //Substring Logic
@@ -36,10 +37,10 @@
     $scope.selected = [];
     DeptFactory.getDeptCount().then(function (response) {
         $scope.depts = response;
-        $(".page-loader-wrapper").hide();
+        $(".page-loader-wrapper-custom").hide();
     })
     $scope.change = function (id, name) {
-        $(".page-loader-wrapper").show();
+        $(".page-loader-wrapper-custom").show();
         if ($window.location.href.split("/")[4] != "Dashboard") {
             $window.location.href = "/Admin/Dashboard"
         }
@@ -49,7 +50,7 @@
             //Pagination Logic 
             pagination($scope.questions_answers);
         })
-        $(".page-loader-wrapper").hide();
+        $(".page-loader-wrapper-custom").hide();
 
     }
 
@@ -58,37 +59,42 @@
         $scope.questions_answers = refineQues(response)
         //Pagination Logic 
         pagination($scope.questions_answers);
-        $(".page-loader-wrapper").hide();
+        $(".page-loader-wrapper-custom").hide();
     })
 
     $("#search").keyup(function (e) {
         if (e.which == 13 && $(this).val() != "") {
-            $(".page-loader-wrapper").show();
+            $(".page-loader-wrapper-custom").show();
             questionService.searchQuestions($(this).val()).then(function (response) {
                 $scope.questions_answers = refineQues(response)
                 pagination($scope.questions_answers);
             })
-        $(".page-loader-wrapper").hide();
+            $(".page-loader-wrapper-custom").hide();
         }
     })
 
     //Toggle State of Question
     $scope.toggleStatus = function (id, key) {
+        $(".page-loader-wrapper-custom").show();
         questionService.toggleStatus(id, !$scope.questions_answers[key].Status).then(function(response){
             if (response) {
                 questionService.getQues().then(function (response) {
                     $scope.questions_answers = response
                 })
+                $(".page-loader-wrapper-custom").hide();
+
                 alert("Status Updated. ");
             }else {
                 alert("Something Went Wrong. Contact Admin.")
             }
         })
+        $(".page-loader-wrapper-custom").hide();
     }
 
     //Delete Question Logic
     $scope.del_que = function (id) {
         if (confirm("Are you sure you want to Delete the question? This is an irreversible Action.")) {
+            $(".page-loader-wrapper-custom").show();
             questionService.delQue(id).then(function (response) {
                 if (response) {
                     alert("Question Deleted");
@@ -97,6 +103,8 @@
                     alert("Something went wrong.")
                 }
             })
+            $(".page-loader-wrapper-custom").hide();
+
         }
     }
 
@@ -146,6 +154,7 @@
                 }
             }
             if (isStatusInactive) {
+                $(".page-loader-wrapper-custom").show();
                 questionService.toggleSelectedStatus(data, true).then(function (response) {
                     if (response) {
                         alert("Status changed for selected Questions.")
@@ -154,6 +163,7 @@
                         alert("Something went wrong. Contact Admin.")
                     }
                 })
+                $(".page-loader-wrapper-custom").hide();
             } else {
                 alert("Select only those question which have inactive status.")
             }
@@ -178,14 +188,17 @@
                 }
             }
             if (isStatusActive) {
+                $(".page-loader-wrapper-custom").show();
                 questionService.toggleSelectedStatus(data, false).then(function (response) {
                     if (response) {
                         alert("Status changed for selected Questions.")
                         $window.location.reload();
+
                     } else {
                         alert("Something went wrong. Contact Admin.")
                     }
                 })
+                $(".page-loader-wrapper-custom").hide();
             } else {
                 alert("Select only those question which have    active status.")
             }
@@ -202,11 +215,14 @@
                     data.push($scope.questions_answers[i].Id)
                 }
             }
+            $(".page-loader-wrapper-custom").show();
             questionService.deleteSelected(data).then(function (response) {
                 if (response) {
+                    $(".page-loader-wrapper-custom").hide();
                     alert("Questions deleted Successfully.")
                     $window.location.reload();
                 } else {
+                    $(".page-loader-wrapper-custom").hide();
                     alert("Something went wrong. Contact Admin.")
                 }
             })
@@ -220,6 +236,7 @@
 dashboard.controller("questions", function ($scope,questionService,$window, DeptFactory, ModuleFactory) {
     $scope.createQ = function (isValid) {
         if (isValid && $scope.form.answer != "" && $scope.form.answer != "<p><br></p>") {
+            $(".page-loader-wrapper-custom").show();
             var data = {};
             data.question = $scope.form.question.$viewValue;
             data.dept = $scope.form.d.$viewValue;
@@ -229,9 +246,11 @@ dashboard.controller("questions", function ($scope,questionService,$window, Dept
             data.answer = $("#answer").summernote('code');
             questionService.createQuestion(data).then(function (response) {
                 if (response) {
+                    $(".page-loader-wrapper-custom").hide();
                     alert("Successfully Added Question.")
                     $window.location.reload()
                 } else {
+                    $(".page-loader-wrapper-custom").hide();
                     alert("Something Went wrong. Please Contact Admin.")
                 }
             })
@@ -241,22 +260,23 @@ dashboard.controller("questions", function ($scope,questionService,$window, Dept
     }
     DeptFactory.getDept().then(function (response) {
         $scope.dept = response
+        $(".page-loader-wrapper-custom").hide();
     })
     $scope.previewQ = function () {
         answer = $("#answer").summernote('code');
         $("#previewanswer").html(answer)
     }
     $scope.change_dept = function (id) {
-        $(".page-loader-wrapper").hide();
+        $(".page-loader-wrapper-custom").hide();
         ModuleFactory.searchModById(id).then(function (response) {
             $scope.selected_mod = response
         })
-        $(".page-loader-wrapper").hide();
+        $(".page-loader-wrapper-custom").hide();
     }
-    
 
     ModuleFactory.getAllModules().then(function (response) {
         $scope.all_mod = response
+        $(".page-loader-wrapper-custom").hide();
     })
 })
 
@@ -264,15 +284,20 @@ dashboard.controller("questions", function ($scope,questionService,$window, Dept
 dashboard.controller("tagsmgmt", function ($scope, TagsFactory) {
     TagsFactory.getTags().then(function (response) {
         $scope.tags = response;
+        $(".page-loader-wrapper-custom").hide();
     })
     $scope.new_tag;
     $scope.add = function (tag) {
+        $(".page-loader-wrapper-custom").show();
         TagsFactory.addTag(tag).then(function (response) {
             if (response == 0) {
+                $(".page-loader-wrapper-custom").hide();
                 alert("Please Enter a Tag.")
             } else if (response == 1) {
+                $(".page-loader-wrapper-custom").hide();
                 alert("Tag Already Exists.")
             } else {
+                $(".page-loader-wrapper-custom").hide();
                 $("#addTag").modal("hide");
                 alert("Successfully Added.");
                 TagsFactory.getTags().then(function (response) {
@@ -282,6 +307,7 @@ dashboard.controller("tagsmgmt", function ($scope, TagsFactory) {
         })
     }
     $scope.save = function (id) {
+        $(".page-loader-wrapper-custom").show();
         new_tag = $("#" + id).html()
         //HTTP POST request for updating the value
         TagsFactory.updateTag(id,new_tag).then(function (response) {
@@ -289,14 +315,14 @@ dashboard.controller("tagsmgmt", function ($scope, TagsFactory) {
                 TagsFactory.getTags().then(function (response) {
                     $scope.tags = response
                 })
+                $(".page-loader-wrapper-custom").hide();
                 alert("Successfully Updated.")
             }
             else if (response == -1) {
+                $(".page-loader-wrapper-custom").hide();
                 alert("Something went wrong. Contact Admin.")
             } else {
-                TagsFactory.getTags().then(function (response) {
-                    $scope.tags = response
-                })
+                $(".page-loader-wrapper-custom").hide();
                 alert("New tag already exist. Please provide unique names for each tag.")
             }
         })
@@ -305,13 +331,16 @@ dashboard.controller("tagsmgmt", function ($scope, TagsFactory) {
         //ask for confirmation
         if (confirm("Are you sure you want to delete the tag? This Action is irreversible.")) {
             //HTTP delete request for delete
+            $(".page-loader-wrapper-custom").show();
             TagsFactory.deleteTag(id).then(function (response) {
                 if (response == 1) {
                     alert("Tag deleted.")
                     TagsFactory.getTags().then(function (response) {
                         $scope.tags = response
                     })
+                    $(".page-loader-wrapper-custom").hide();
                 } else {
+                    $(".page-loader-wrapper-custom").hide();
                     alert("Something Went Wrong. Please contact Admin.")
                 }
             })
@@ -322,37 +351,45 @@ dashboard.controller("tagsmgmt", function ($scope, TagsFactory) {
     $("#tag_search").keyup(function (e) {
         if (e.which == 13) {
             if ($(this).val() != "") {
-                $(".page-loader-wrapper").hide();
+                $(".page-loader-wrapper-custom").hide();
                 TagsFactory.searchTag($(this).val()).then(function (response) {
                     $scope.tags = response;
                     console.log($scope.tags)
                 })
-                $(".page-loader-wrapper").hide();
+                $(".page-loader-wrapper-custom").hide();
             }
         }
     })
 })
 
+//Controller for Department Management.
 dashboard.controller("Department", function (DeptFactory, ModuleFactory, $scope) {
     DeptFactory.getDept().then(function (response) {
         $scope.dept = response
+        $(".page-loader-wrapper-custom").hide();
+
     })
     ModuleFactory.getMod().then(function (response) {
         $scope.mod = response
+        $(".page-loader-wrapper-custom").hide();
     })
 
     $scope.add_dept = function (dept) {
+        $(".page-loader-wrapper-custom").show();
         DeptFactory.addDept(dept).then(function (response) {
             if (response == 0) {
+                $(".page-loader-wrapper-custom").hide();
                 alert("Please Enter a Department.")
             } else if (response == 1) {
+                $(".page-loader-wrapper-custom").hide();
                 alert("Department Already Exists.")
             } else {
-                $("#addDept").modal("hide");
-                alert("Successfully Added.");
                 DeptFactory.getDept().then(function (response) {
                     $scope.dept = response
                 })
+                $(".page-loader-wrapper-custom").hide();
+                $("#addDept").modal("hide");
+                alert("Successfully Added.");
             }
 
         })
@@ -360,19 +397,23 @@ dashboard.controller("Department", function (DeptFactory, ModuleFactory, $scope)
     $scope.dept_save = function (id) {
         new_dept = $("#d" + id).html()
         //HTTP POST request for updating the value
+        $(".page-loader-wrapper-custom").show();
         DeptFactory.updateDept(id,new_dept).then(function (response) {
             if (response == 1) {
                 DeptFactory.getDept().then(function (response) {
                     $scope.dept = response
                 })
+                $(".page-loader-wrapper-custom").hide();
                 alert("Successfully Updated.")
             }
             else if (response == -1) {
                 alert("Something went wrong. Contact Admin.")
+                $(".page-loader-wrapper-custom").hide();
             } else {
                 DeptFactory.getDept().then(function (response) {
                     $scope.dept = response
                 })
+                $(".page-loader-wrapper-custom").hide();
                 alert("New tag already exist. Please provide unique names for each tag.")
             }
         })
@@ -380,6 +421,7 @@ dashboard.controller("Department", function (DeptFactory, ModuleFactory, $scope)
     $scope.dept_delete = function (id) {
         if (confirm("Are you sure you want to delete the tag? This Action is irreversible.")) {
             //HTTP delete request for delete
+            $(".page-loader-wrapper-custom").show();
             DeptFactory.deleteDept(id).then(function (response) {
                 console.log(response.data);
                 if (response == 1) {
@@ -387,7 +429,9 @@ dashboard.controller("Department", function (DeptFactory, ModuleFactory, $scope)
                     DeptFactory.getDept().then(function (response) {
                         $scope.dept = response
                     })
+                    $(".page-loader-wrapper-custom").hide();
                 } else {
+                    $(".page-loader-wrapper-custom").hide();
                     alert("Something Went Wrong. Please contact Admin.")
                 }
             })
@@ -396,11 +440,11 @@ dashboard.controller("Department", function (DeptFactory, ModuleFactory, $scope)
     $("#dept_search").keyup(function (e) {
         if (e.which == 13) {
             if ($(this).val() != "") {
-                $(".page-loader-wrapper").hide();
+                $(".page-loader-wrapper-custom").hide();
                 DeptFactory.searchDept($(this).val()).then(function (response) {
                     $scope.dept = response.data;
                 })
-                $(".page-loader-wrapper").hide();
+                $(".page-loader-wrapper-custom").hide();
             }
         }
     })
@@ -408,19 +452,23 @@ dashboard.controller("Department", function (DeptFactory, ModuleFactory, $scope)
     $scope.mod_save = function (id) {
         new_mod = $("#m" + id).html()
         //HTTP POST request for updating the value
+        $(".page-loader-wrapper-custom").show();
         ModuleFactory.updateMod(id,new_mod).then(function (response) {
             if (response == 1) {
                 ModuleFactory.getMod().then(function (response) {
                     $scope.dept = response
                 })
+                $(".page-loader-wrapper-custom").hide();
                 alert("Successfully Updated.")
             }
             else if (response == -1) {
+                $(".page-loader-wrapper-custom").hide();
                 alert("Something went wrong. Contact Admin.")
             } else {
                 ModuleFactory.getMod().then(function (response) {
                     $scope.dept = response
                 })
+                $(".page-loader-wrapper-custom").hide();
                 alert("New tag already exist. Please provide unique names for each tag.")
             }
         })
@@ -428,23 +476,29 @@ dashboard.controller("Department", function (DeptFactory, ModuleFactory, $scope)
     $scope.mod_delete = function (id) {
         if (confirm("Are you sure you want to delete the Module? This Action is irreversible.")) {
             //HTTP delete request for delete
+            $(".page-loader-wrapper-custom").show();
             ModuleFactory.deleteMod(id).then(function (response) {
                 if (response == 1) {
                     alert("Module deleted.")
                     ModuleFactory.getMod().then(function (response) {
                         $scope.mod = response
                     })
+                    $(".page-loader-wrapper-custom").hide();
                 } else {
+                    $(".page-loader-wrapper-custom").hide();
                     alert("Something Went Wrong. Please contact Admin.")
                 }
             })
         }
     }
     $scope.add_mod = function (mod, d) {
+        $(".page-loader-wrapper-custom").show();
         ModuleFactory.addMod(mod,d).then(function (response) {
             if (response == 0) {
+                $(".page-loader-wrapper-custom").hide();
                 alert("Please Enter a Module.")
             } else if (response == 1) {
+                $(".page-loader-wrapper-custom").hide();
                 alert("Module Already Exists.")
             } else {
                 $("#addMod").modal("hide");
@@ -453,15 +507,18 @@ dashboard.controller("Department", function (DeptFactory, ModuleFactory, $scope)
                     console.log(response)
                     $scope.mod = response
                 })
+                $(".page-loader-wrapper-custom").hide();
             }
         })
     }
     $("#mod_search").keyup(function (e) {
         if (e.which == 13) {
             if ($(this).val() != "") {
+                $(".page-loader-wrapper-custom").show();
                 ModuleFactory.seachMod($(this).val()).then(function (response) {
                     $scope.mod = response.data;
                 })
+                $(".page-loader-wrapper-custom").hide();
             }
         }
     })
