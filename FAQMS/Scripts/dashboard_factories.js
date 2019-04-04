@@ -46,7 +46,6 @@ dashboard.factory("questionService", function ($http) {
 dashboard.factory("DeptFactory", function ($http) {
     return {
         getDept: function () {
-            $(".page-loader-wrapper-custom").show();
             return $http.get("/Admin/GetDepts").then(function (response) {
                 return response.data
             })
@@ -83,7 +82,6 @@ dashboard.factory("DeptFactory", function ($http) {
 dashboard.factory("ModuleFactory", function ($http) {
     return {
         getMod: function () {
-            $(".page-loader-wrapper-custom").show();
             return $http.get("/Admin/GetMods").then(function (response) {
                 return response.data
             })

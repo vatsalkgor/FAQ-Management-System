@@ -364,15 +364,14 @@ dashboard.controller("tagsmgmt", function ($scope, TagsFactory) {
 
 //Controller for Department Management.
 dashboard.controller("Department", function (DeptFactory, ModuleFactory, $scope) {
+    $(".page-loader-wrapper-custom").show();
     DeptFactory.getDept().then(function (response) {
         $scope.dept = response
-        $(".page-loader-wrapper-custom").hide();
-
     })
     ModuleFactory.getMod().then(function (response) {
         $scope.mod = response
-        $(".page-loader-wrapper-custom").hide();
     })
+    $(".page-loader-wrapper-custom").hide();
 
     $scope.add_dept = function (dept) {
         $(".page-loader-wrapper-custom").show();
