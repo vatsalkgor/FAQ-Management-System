@@ -27,21 +27,24 @@
     })
 
     $scope.findRelated = function (id) {
-        $(".page-loader-wrapper-custom").show();
-        questions.findRelated(id).then(function (response) {
-            $scope.related = response
-            for (var i = 0; i < $scope.related.length; i++) {
-                $scope.related[i].TrustedAns = $sce.trustAsHtml($scope.related[i].Answer)
-            }
-        })
-        $(".page-loader-wrapper-custom").hide();
+        if (!$("#q" + id).data('active')) {
+            $(".page-loader-wrapper-custom").show();
+            questions.findRelated(id).then(function (response) {
+                $scope.related = response
+                for (var i = 0; i < $scope.related.length; i++) {
+                    $scope.related[i].TrustedAns = $sce.trustAsHtml($scope.related[i].Answer)
+                }
+            })
+            $(".page-loader-wrapper-custom").hide();
+        }
+        $("#q" + id).data('active',!$("#q"+id).data('active')) 
 
     }
     $scope.relClick = function (id) {
         if (!inMainQuestion(id)) {
             $scope.question_answers.push($scope.related[id]);
             $scope.findRelated($scope.related[id].Id);
-            console.log($("button[data-target=" + $scope.related[id].Id + "]").val())
+            console.log($("b" + $scope.related[id].Id).data())
             $("button[data-target=" + $scope.related[id].Id + "]").click();
             console.log("#" + $scope.related[id].Id);
             setTimeout(function () { $("#" + $scope.related[id].Id)[0].scrollIntoView({ behavior: "smooth" }) }, 500);

@@ -7,10 +7,10 @@
     <link href="~/Content/bootstrap-select.css" rel="stylesheet" />
 }
 @section customcss{
-    <link href="~/Scripts/summernotebs3/summernote.css" rel="stylesheet" />
     <link href="~/Content/ceratequestion.css" rel="stylesheet" />
     @*<link href="~/Content/multi-select.css" rel="stylesheet" />*@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+    <link href="~/Scripts/summernotebs3/summernote.css" rel="stylesheet" />
 }
 @section customjs{
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.6/angular.min.js"></script>
@@ -43,7 +43,15 @@
         })
     </script>
 }
-
+<style>
+    .note-btn {
+        padding:0px 10px 0px;
+    }
+    .note-btn i{
+        font-size:15px !important ;
+        top:0px !important;
+    }
+</style>
 <div class="container-fluid" ng-controller="questions">
     <div class="row clearfix">
         <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
