@@ -20,16 +20,24 @@
     <script src="~/Scripts/dropzone.min.js"></script>
     <script src="~/Scripts/summernotebs3/summernote.js"></script>
     <script>
+        function remove_style(selector) {
+            
+            $.each(selector, function () {
+                $(this).removeAttr('class style')
+            })
+        }
         $editor = $('#answer').summernote({
             height: 300,
-            tabsize: 1,
-            onpaste: function (e) {
-                var bufferText = ((e.originalEvent || e).clipboardData || window.clipboardData).getData('Text');
-                console.log(bufferText)
-                e.preventDefault();
-                document.execCommand('insertText', false, bufferText);
+            tabsize: 4,
+            callbacks: {
+                onPaste: function (e) {
+                    setTimeout(function () {
+                        $(".note-editable p, .note-editable span").each(function () {
+                            $(this).removeAttr("class style");
+                        })
+                    }, 0);
+                }
             }
-
         });
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
@@ -45,12 +53,13 @@
 }
 <style>
     .note-btn {
-        padding:0px 10px 0px;
+        padding: 0px 10px 0px;
     }
-    .note-btn i{
-        font-size:15px !important ;
-        top:0px !important;
-    }
+
+        .note-btn i {
+            font-size: 15px !important;
+            top: 0px !important;
+        }
 </style>
 <div class="container-fluid" ng-controller="questions">
     <div class="row clearfix">

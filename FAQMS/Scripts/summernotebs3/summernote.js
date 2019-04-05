@@ -4626,9 +4626,10 @@
           var clipboardData = event.originalEvent.clipboardData;
           if (clipboardData && clipboardData.items && clipboardData.items.length) {
               // paste img file
-              var item = clipboardData.items.length > 1 ? clipboardData.items[1] : lists.head(clipboardData.items);
+              var item = clipboardData.items.length >= 1 ? clipboardData.items[0] : lists.head(clipboardData.items);
               if (item.kind === 'file' && item.type.indexOf('image/') !== -1) {
-                  this.context.invoke('editor.insertImagesOrCallback', [item.getAsFile()]);
+                  console.log("in if")
+                  this.context.invoke('editor.insertImagesAsDataURL', [item.getAsFile()]);
               }
               this.context.invoke('editor.afterCommand');
           }
@@ -4716,7 +4717,7 @@
               event.preventDefault();
               if (dataTransfer && dataTransfer.files && dataTransfer.files.length) {
                   _this.$editable.focus();
-                  _this.context.invoke('editor.insertImagesOrCallback', dataTransfer.files);
+                  _this.context.invoke('editor.insertImagesAsDataURL', dataTransfer.files);
               }
               else {
                   $$1.each(dataTransfer.types, function (idx, type) {
