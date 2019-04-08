@@ -54,7 +54,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" style="position:sticky;top:100px;bottom:100px;">
             <div class="card">
                 <div class="header">
                     <h2>Related Question</h2>
@@ -62,10 +62,10 @@
                 <div class="body">
                     <div class="row">
                         <div ng-repeat="q in related" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                            <button id="b{{q.Id}}" style="width:100%" ng-click="relClick($index)" class="btn bg-cyan waves-effect m-b-10" type="button" data-toggle="collapse" data-target="#{{q.Id}}" aria-expanded="false"
+                            <a id="b{{q.Id}}" ng-click="relClick($index)" class="waves-effect m-b-10" data-toggle="collapse" data-target="#{{q.Id}}" aria-expanded="false"
                                     aria-controls="collapseExample">
                                 {{q.Question}}
-                            </button>
+                            </a>
                             <div class="collapse" id="{{q.Id}}">
                                 <div class="well">
                                     <p ng-bind-html="q.TrustedAns"></p>

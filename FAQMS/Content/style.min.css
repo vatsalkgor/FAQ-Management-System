@@ -2949,7 +2949,7 @@ button, input, select, a {
 }
 
 section.content {
-    margin: 100px 15px 0 315px;
+    margin: 85px 15px 0 240px;
     -moz-transition: .5s;
     -o-transition: .5s;
     -webkit-transition: .5s;
@@ -9552,7 +9552,7 @@ section.content {
     transition: all .5s;
     font-family: "Roboto",sans-serif;
     background: #fdfdfd;
-    width: 300px;
+    width: 240px;
     overflow: hidden;
     display: inline-block;
     height: calc(100vh - 70px);
@@ -9705,7 +9705,7 @@ section.content {
             }
 
             .sidebar .menu .list .menu-toggle:before {
-                content: '+';
+                content: '';
                 -moz-transform: scale(1);
                 -ms-transform: scale(1);
                 -o-transform: scale(1);
