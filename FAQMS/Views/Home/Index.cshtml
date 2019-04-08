@@ -38,7 +38,7 @@
                             <div class="panel panel-col-cyan" style="margin-bottom:20px;" ng-repeat="q in question_answers">
                                 <div class="panel-heading " role="tab" id="h{{q.Id}}">
                                     <h4 class="panel-title">
-                                        <a id="q{{q.Id}}" data-active="false" class="waves-effect waves-block" role="button" ng-click="findRelated(q.Id)" data-toggle="collapse" data-parent="#accordion_1" href="#{{q.Id}}" aria-expanded="true" aria-controls="c{{q.Id}}">
+                                        <a id="q{{q.Id}}" class="waves-effect waves-block" role="button" ng-click="findRelated(q.Id)" data-toggle="collapse" data-parent="#accordion_1" href="#{{q.Id}}" aria-expanded="true" aria-controls="c{{q.Id}}">
                                             {{q.Question}}
                                         </a>
                                     </h4>
@@ -62,7 +62,7 @@
                 <div class="body">
                     <div class="row">
                         <div ng-repeat="q in related" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                            <a id="b{{q.Id}}" ng-click="relClick($index)" class="waves-effect m-b-10" data-toggle="collapse" data-target="#{{q.Id}}" aria-expanded="false"
+                            <a id="b{{q.Id}}" ng-click="relClick($index)" class="waves-effect m-b-10" data-target="#{{q.Id}}" aria-expanded="false"
                                     aria-controls="collapseExample">
                                 {{q.Question}}
                             </a>
