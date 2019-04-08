@@ -22,6 +22,9 @@ public.factory("questions", function ($http) {
             return $http.post("/Home/SearchQuestion", { query: query }).then(function (response) {
                 return response.data;
             })
+        },
+        updateTimespend: (id) => {
+            return $http.post("/Home/UpdateTimespend", { id: id }).then((response) => { return response.data });
         }
     }
 });

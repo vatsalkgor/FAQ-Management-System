@@ -28,6 +28,7 @@
 
     $scope.findRelated = function (id) {
         if (!$("#q" + id).data('active')) {
+            console.log("in if")
             $(".page-loader-wrapper-custom").show();
             questions.findRelated(id).then(function (response) {
                 $scope.related = response
@@ -36,6 +37,8 @@
                 }
             })
             $(".page-loader-wrapper-custom").hide();
+        } else {
+            questions.updateTimespend(id).then((response) => console.log(response));
         }
         $("#q" + id).data('active',!$("#q"+id).data('active')) 
 

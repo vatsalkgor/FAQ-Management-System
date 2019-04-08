@@ -20,8 +20,17 @@ namespace FAQMS.Controllers
         [HttpGet]
         public JsonResult GetTop()
         {
-            List<QuestionAnswer> qa = c.QuestionAnswerContext.Where(t=> t.Status == true).OrderByDescending(t => t.Timespend).Take(5).ToList();
+            List<QuestionAnswer> qa = c.QuestionAnswerContext.Where(t => t.Status == true).OrderByDescending(t => t.Timespend).Take(5).ToList();
             return Json(qa, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public long UpdateTimespend(int id)
+        {
+            var qa = c.QuestionAnswerContext.Where(t => t.Id == id).First();
+            qa.Timespend = qa.Timespend + 1;
+            c.SaveChanges();
+            return qa.Timespend;
         }
 
         [HttpPost]
